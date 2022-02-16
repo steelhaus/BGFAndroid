@@ -5,9 +5,8 @@ plugins {
 
 apply plugin: 'com.google.gms.google-services'  // Google Services plugin
 
-Properties properties = new Properties()
-properties.load(project.rootProject.file("local.properties").newDataInputStream())
-def googleMapApiKey = properties.getProperty("google.map.key")
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(rootProject.file("local.properties")))
 
 android {
     compileSdkVersion 31
@@ -24,6 +23,9 @@ android {
     }
 
     buildTypes {
+        debug {
+            resValue("string", "google_map_api_key", localProperties['google.map.key'])
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -36,24 +38,31 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    buildFeatures{
+        viewBinding true
+    }
 }
 
 dependencies {
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'com.google.android.material:material:1.4.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
+    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     // import google maps
-    implementation 'com.google.android.gms:play-services-maps:17.0.1'
+    implementation 'com.google.android.gms:play-services-maps:18.0.2'
 
     // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:29.0.3')
     // Declare the dependency for the Firebase SDK for Google Analytics
     implementation 'com.google.firebase:firebase-analytics-ktx'
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1'
 }
