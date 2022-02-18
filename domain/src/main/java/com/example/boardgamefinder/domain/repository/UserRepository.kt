@@ -10,4 +10,5 @@ interface UserRepository {
      * User registration
      */
     fun register(credentials: UserCredentials): Result<Boolean>
+    suspend fun getBreeds(): Result<List<String>>
 }

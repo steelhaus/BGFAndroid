@@ -7,13 +7,13 @@
         <entry key="..\:/Users/narkada/AndroidStudioProjects/BoardGameFinder/app/src/main/res/layout/fragment_add.xml" value="0.16927083333333334" />
         <entry key="..\:/Users/narkada/AndroidStudioProjects/BoardGameFinder/app/src/main/res/layout/fragment_home.xml" value="0.16927083333333334" />
         <entry key="..\:/Users/narkada/AndroidStudioProjects/BoardGameFinder/app/src/main/res/layout/fragment_notifications.xml" value="0.16927083333333334" />
-        <entry key="..\:/Users/narkada/AndroidStudioProjects/BoardGameFinder/app/src/main/res/layout/fragment_profile.xml" value="0.20677083333333332" />
+        <entry key="..\:/Users/narkada/AndroidStudioProjects/BoardGameFinder/app/src/main/res/layout/fragment_profile.xml" value="0.264" />
         <entry key="..\:/Users/narkada/AndroidStudioProjects/BoardGameFinder/app/src/main/res/layout/fragment_search.xml" value="0.20677083333333332" />
         <entry key="..\:/Users/narkada/AndroidStudioProjects/BoardGameFinder/app/src/main/res/menu/bottom_navigation.xml" value="0.2109375" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

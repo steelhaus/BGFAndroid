@@ -1,11 +1,11 @@
-package com.example.boardgamefinder
+package com.example.boardgamefinder.presentation.views
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.boardgamefinder.R
 import com.example.boardgamefinder.databinding.ActivityMainBinding
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
+
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
 
         // setting fragments for main frame
         binding.bottomNavigationView.setOnItemSelectedListener {
-            when(it.itemId){
+            when (it.itemId) {
                 R.id.nav_home -> {
                     replaceFragment(HomeFragment())
                 }
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun replaceFragment(fragment: Fragment){
+    private fun replaceFragment(fragment: Fragment) {
         // open fragment
         supportFragmentManager.beginTransaction()
             .replace(R.id.main_frame, fragment)
