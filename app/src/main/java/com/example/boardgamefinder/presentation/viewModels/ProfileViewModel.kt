@@ -14,8 +14,8 @@ import java.lang.Exception
 
 internal class ProfileViewModel(app: Application) : AndroidViewModel(app) {
 
-    private val _countBreeds = MutableLiveData<String>()
-    val countBreeds: LiveData<String> = _countBreeds
+    private val _breedsCount = MutableLiveData<Int>()
+    val breedsCount: LiveData<Int> = _breedsCount
 
     fun getBreeds(){
         val useCase = GetBreedsUseCase(UserRepository())
@@ -24,7 +24,7 @@ internal class ProfileViewModel(app: Application) : AndroidViewModel(app) {
 
             withContext(Dispatchers.Main) {
                 if (result.isSuccess)
-                    _countBreeds.value = result.getOrNull()!!.size.toString()
+                    _breedsCount.value = result.getOrNull()?.size ?: 0
                 else
                     Toast.makeText(getApplication(), ServerExceptionConverter.convertServerExceptionToText(result.exceptionOrNull()!! as Exception), Toast.LENGTH_LONG).show()
             }
