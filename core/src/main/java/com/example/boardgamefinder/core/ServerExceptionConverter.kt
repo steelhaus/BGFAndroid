@@ -1,14 +1,14 @@
 package com.example.boardgamefinder.core
 
-import com.example.boardgamefinder.data.retrofit.exceptions.Response500
-import com.example.boardgamefinder.data.retrofit.exceptions.UnknownServerError
+import com.example.boardgamefinder.data.retrofit.DataException
 import java.lang.Exception
 
 object ServerExceptionConverter {
     fun convertServerExceptionToText(exception: Exception): String{
         return when(exception){
-            is Response500 -> "Server is broken"
-            is UnknownServerError -> "Something went wrong"
+            is DataException.InternetException -> "Something went wrong. Please, check the Internet connection"
+            is DataException.Response500 -> "Server is broken"
+            is DataException.UnknownServerError -> "Something went wrong"
             else -> "Error"
         }
     }

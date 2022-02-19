@@ -7,7 +7,7 @@ import com.example.boardgamefinder.R
 import com.example.boardgamefinder.databinding.ActivityMainBinding
 
 
-class MainActivity : AppCompatActivity() {
+internal class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

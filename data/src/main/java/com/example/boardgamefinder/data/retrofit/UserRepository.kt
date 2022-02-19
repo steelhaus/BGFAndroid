@@ -1,10 +1,9 @@
 package com.example.boardgamefinder.data.retrofit
 
-import com.example.boardgamefinder.data.retrofit.exceptions.Response500
-import com.example.boardgamefinder.data.retrofit.exceptions.UnknownServerError
 import com.example.boardgamefinder.domain.models.UserCredentials
 import com.example.boardgamefinder.domain.repository.UserRepository
 import kotlinx.coroutines.*
+import retrofit2.Response
 
 class UserRepository : UserRepository {
     override fun register(credentials: UserCredentials): Result<Boolean> {
@@ -15,19 +14,22 @@ class UserRepository : UserRepository {
         var result: Result<List<String>>?
 
         withContext(Dispatchers.IO) {
-            val response = ApiClient.instance.getBreeds()
-
+            val response: Response<List<String>>
+            try {
+                response = ApiClient.instance.getBreeds()
+            }catch (e: Exception){
+                result = Result.failure(DataException.InternetException())
+                return@withContext
+            }
             if (response.isSuccessful && response.body() != null) {
                 result = Result.success(response.body()!!)
                 return@withContext
             }
 
-            result = when (response.code()) {
-                500 -> Result.failure(Response500())
-                else -> Result.failure(UnknownServerError())
-            }
+            result = Result.failure(DataException.responseCodeToException(response.code()))
         }
 
         return result!!
     }
+
 }
