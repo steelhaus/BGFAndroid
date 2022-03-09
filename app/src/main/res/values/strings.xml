@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">BoardGameFinder</string>
-    <string name="HomeNavName">Лента</string>
-    <string name="SearchNavName">Поиск</string>
-    <string name="CreateNavName">Создать</string>
-    <string name="EventsNavName">События</string>
-    <string name="ProfileNavName">Профиль</string>
+    <string name="app_name" translatable="false">BoardGameFinder</string>
+    <string name="HomeNavName">Feed</string>
+    <string name="SearchNavName">Search</string>
+    <string name="CreateNavName">Add</string>
+    <string name="EventsNavName">Events</string>
+    <string name="ProfileNavName">Profile</string>
 </resources>

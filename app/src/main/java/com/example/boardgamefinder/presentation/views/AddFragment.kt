@@ -7,6 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.boardgamefinder.R
 
+/**
+ * Fragment for creating a new event tab
+ */
 internal class AddFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

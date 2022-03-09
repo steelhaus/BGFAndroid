@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="HomeNavName">Лента</string>
+    <string name="SearchNavName">Поиск</string>
+    <string name="CreateNavName">Добавить</string>
+    <string name="EventsNavName">События</string>
+    <string name="ProfileNavName">Профиль</string>
+</resources>

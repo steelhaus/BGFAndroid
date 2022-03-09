@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="InternetException">Что-то пошло не так. Пожалуйста, проверьте соединение с сетью Интернет.</string>
+    <string name="Response500">Сервер сломан.</string>
+    <string name="UnknownServerError">Что-то пошло не так.</string>
+    <string name="AnotherError">Ошибка.</string>
+</resources>
