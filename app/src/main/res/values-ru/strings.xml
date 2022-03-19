@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="HomeNavName">Лента</string>
+    <string name="SearchNavName">Поиск</string>
+    <string name="CreateNavName">Добавить</string>
+    <string name="EventsNavName">События</string>
+    <string name="ProfileNavName">Профиль</string>
+    <string name="Welcome">Добро</string>
+    <string name="Back">Пожаловать</string>
+    <string name="Email">почта</string>
+    <string name="Password">пароль</string>
+    <string name="ForgotPassword">Восстановить пароль</string>
+    <string name="LogIn">Войти</string>
+    <string name="SignUp">Зарегистрироваться</string>
+    <string name="or">или</string>
+    <string name="Create">Создание</string>
+    <string name="Account">Аккаунта</string>
+    <string name="ConfirmPassword">подтверждение пароля</string>
+    <string name="find_a_party_for_your_board_game_event">Найдите компанию для совместного проведения настольных игр</string>
+    <string name="explore">Далее</string>
+</resources>
