@@ -10,7 +10,7 @@ import com.example.boardgamefinder.R
 /**
  * Fragment for creating a new event tab
  */
-internal class AddFragment : Fragment() {
+internal class NewEventFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

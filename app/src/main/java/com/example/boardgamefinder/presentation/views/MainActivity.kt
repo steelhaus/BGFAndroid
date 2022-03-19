@@ -27,7 +27,7 @@ internal class MainActivity : AppCompatActivity() {
                     replaceFragment(SearchFragment())
                 }
                 R.id.nav_add -> {
-                    replaceFragment(AddFragment())
+                    replaceFragment(NewEventFragment())
                 }
                 R.id.nav_notifications -> {
                     replaceFragment(NotificationsFragment())
