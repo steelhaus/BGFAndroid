@@ -20,4 +20,21 @@
     <string name="board_game_finder" translatable="false">Board Game Finder</string>
     <string name="find_a_party_for_your_board_game_event">Find a party for your board game event</string>
     <string name="explore">Explore</string>
+    <string name="password_recovery">PASSWORD RECOVERY</string>
+    <string name="back_icon">back</string>
+    <string name="enter_email">Enter your email address and we will send you a new password</string>
+    <string name="enter_email_here">enter email address here</string>
+    <string name="send">Send</string>
+    <string name="confirm">Confirm</string>
+    <string name="verification">VERIFICATION</string>
+    <string name="sent_you_code">We have sent you an access code via email for email address verification</string>
+    <string name="enter_code_here">enter code here</string>
+    <string name="next_time_in">next time in 10 seconds</string>
+    <string name="resend_code">Resend code</string>
+    <string name="profile_picture">profile picture</string>
+    <string name="games_in_collection">Games in collection</string>
+    <string name="following">Following</string>
+    <string name="followers">Followers</string>
+    <string name="events">Events</string>
+    <string name="follow">Follow</string>
 </resources>
