@@ -29,14 +29,13 @@ internal class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // ToDo remove example
-        binding.getBreedsButton.setOnClickListener {
+        /*binding.getBreedsButton.setOnClickListener {
             profileViewModel.getBreeds()
         }
 
-        // ToDo remove example
         profileViewModel.breedsCount.observe(viewLifecycleOwner) {
             binding.countBreedsTextView.text = it.toString()
-        }
+        }*/
     }
 
     override fun onDestroy() {

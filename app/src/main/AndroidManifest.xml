@@ -14,11 +14,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BoardGameFinder">
         <activity
+            android:name=".presentation.views.PasswordRecoveryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.views.ConfirmationCodeActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.views.WelcomeActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.views.LogInActivity"
-            android:exported="true"/>
+            android:exported="true" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -27,13 +33,11 @@
         <activity
             android:name=".presentation.views.MainActivity"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
     </application>
 
