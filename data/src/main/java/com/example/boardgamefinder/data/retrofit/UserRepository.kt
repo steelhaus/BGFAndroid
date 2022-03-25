@@ -1,5 +1,6 @@
 package com.example.boardgamefinder.data.retrofit
 
+import com.example.boardgamefinder.domain.models.Event
 import com.example.boardgamefinder.domain.models.UserCredentials
 import com.example.boardgamefinder.domain.repository.UserRepository
 import kotlinx.coroutines.*
@@ -22,6 +23,28 @@ class UserRepository : UserRepository {
 
             try {
                 response = ApiClient.instance.getBreeds()
+            } catch (e: Exception) {
+                result = Result.failure(DataException.InternetException())
+                return@withContext
+            }
+
+            result = if (response.isSuccessful && response.body() != null)
+                Result.success(response.body()!!)
+            else
+                Result.failure(DataException.responseCodeToException(response.code()))
+        }
+
+        return result!!
+    }
+
+    override suspend fun getEvents(): Result<List<Event>> {
+        var result: Result<List<Event>>?
+
+        withContext(Dispatchers.IO) {
+            val response: Response<List<Event>>
+
+            try {
+                response = ApiClient.instance.getEvents()
             } catch (e: Exception) {
                 result = Result.failure(DataException.InternetException())
                 return@withContext

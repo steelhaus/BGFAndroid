@@ -17,6 +17,8 @@ internal class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        replaceFragment(HomeFragment())
+
         // setting fragments for main frame
         binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
@@ -41,10 +43,18 @@ internal class MainActivity : AppCompatActivity() {
     }
 
     // used for switching between fragments in main frame
-    private fun replaceFragment(fragment: Fragment) {
+    fun replaceFragment(fragment: Fragment) {
         // open fragment
-        supportFragmentManager.beginTransaction()
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
             .replace(R.id.main_frame, fragment)
-            .commit()
+
+        if(fragment !is HomeFragment &&
+            fragment !is SearchFragment &&
+            fragment !is NewEventFragment &&
+            fragment !is NotificationsFragment &&
+            fragment !is ProfileFragment)
+            fragmentTransaction.addToBackStack( "tag" )
+
+        fragmentTransaction.commit()
     }
 }
