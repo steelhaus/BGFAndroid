@@ -8,9 +8,9 @@
     <string name="icon" translatable="false">icon</string>
     <string name="Welcome">Welcome</string>
     <string name="Back">Back</string>
-    <string name="Email">email</string>
-    <string name="Password">password</string>
-    <string name="ConfirmPassword">confirm password</string>
+    <string name="Email">Email</string>
+    <string name="Password">Password</string>
+    <string name="ConfirmPassword">Confirm password</string>
     <string name="ForgotPassword">Forgot password?</string>
     <string name="LogIn">Log in</string>
     <string name="SignUp">Sign up</string>
@@ -44,4 +44,5 @@
     <string name="leave">Leave</string>
     <string name="events_feed">Events feed</string>
     <string name="my_events">My events</string>
+    <string name="UserAlreadyExists">Such user already exists</string>
 </resources>

@@ -8,7 +8,7 @@ import com.example.boardgamefinder.domain.models.UserCredentials
  */
 interface UserRepository {
     // register user
-    fun register(credentials: UserCredentials): Result<Boolean>
+    suspend fun register(credentials: UserCredentials): Result<String>
     // ToDo remove example
     suspend fun getBreeds(): Result<List<String>>
     // ToDo move to event repository

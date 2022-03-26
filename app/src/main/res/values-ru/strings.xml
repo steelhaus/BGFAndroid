@@ -7,15 +7,15 @@
     <string name="ProfileNavName">Профиль</string>
     <string name="Welcome">Добро</string>
     <string name="Back">Пожаловать</string>
-    <string name="Email">почта</string>
-    <string name="Password">пароль</string>
+    <string name="Email">Почта</string>
+    <string name="Password">Пароль</string>
     <string name="ForgotPassword">Восстановить пароль</string>
     <string name="LogIn">Войти</string>
     <string name="SignUp">Зарегистрироваться</string>
     <string name="or">или</string>
     <string name="Create">Создание</string>
     <string name="Account">Аккаунта</string>
-    <string name="ConfirmPassword">подтверждение пароля</string>
+    <string name="ConfirmPassword">Повторите пароль</string>
     <string name="find_a_party_for_your_board_game_event">Найдите компанию для совместного проведения настольных игр</string>
     <string name="explore">Далее</string>
     <string name="password_recovery">ВОССТАНОВЛЕНИЕ ПАРОЛЯ</string>
@@ -40,4 +40,5 @@
     <string name="leave">Покинуть</string>
     <string name="events_feed">Лента мероприятий</string>
     <string name="my_events">Мои мероприятия</string>
+    <string name="UserAlreadyExists">Такой пользователь уже существует</string>
 </resources>

@@ -9,6 +9,7 @@ import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.boardgamefinder.R
+import com.example.boardgamefinder.core.MySettings
 import com.example.boardgamefinder.domain.models.Event
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -64,7 +65,7 @@ class EventAdapter(private val items: List<Event>) : RecyclerView.Adapter<EventA
             when (items[position].subscriptionStatus) {
                 Event.SubscriptionStatus.NOT_SUBMITTED -> {
                     setText(R.string.join)
-                    setTextColor(getSecondaryColor())
+                    setTextColor(MySettings.getSecondaryColor(context))
                 }
                 Event.SubscriptionStatus.REQUESTED -> {
                     setText(R.string.requested)
@@ -102,13 +103,5 @@ class EventAdapter(private val items: List<Event>) : RecyclerView.Adapter<EventA
         val joinButton: TextView = itemView.findViewById(R.id.join_button)
 
         val tags: ChipGroup = itemView.findViewById(R.id.tags)
-    }
-
-    //ToDo вынести куда-то в другое место
-    private fun getSecondaryColor() : Int{
-        val typedValue = TypedValue()
-        val theme = context!!.theme
-        theme.resolveAttribute(R.attr.colorSecondary, typedValue, true)
-        return typedValue.data
     }
 }

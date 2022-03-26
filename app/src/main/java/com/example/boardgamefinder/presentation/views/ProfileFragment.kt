@@ -30,12 +30,7 @@ internal class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.eventsButton.setOnClickListener {
-            val nextFrag = MyEventsFragment()
-            (activity as MainActivity).replaceFragment(nextFrag)
-            /*requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.main_frame, nextFrag, "findThisFragment")
-                .addToBackStack(null)
-                .commit()*/
+            (activity as MainActivity).replaceFragment(MyEventsFragment())
         }
 
         // ToDo remove example

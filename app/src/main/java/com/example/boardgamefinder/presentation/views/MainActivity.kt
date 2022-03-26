@@ -1,19 +1,26 @@
 package com.example.boardgamefinder.presentation.views
 
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.boardgamefinder.R
+import com.example.boardgamefinder.core.MySettings
 import com.example.boardgamefinder.databinding.ActivityMainBinding
 
 /**
  * Activity for holding all app tabs
  */
 internal class MainActivity : AppCompatActivity() {
-    lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var mSettings: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        checkForAuth()
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -56,5 +63,17 @@ internal class MainActivity : AppCompatActivity() {
             fragmentTransaction.addToBackStack( "tag" )
 
         fragmentTransaction.commit()
+    }
+
+    private fun checkForAuth(){
+        mSettings = getSharedPreferences(MySettings.APP_PREFERENCES, MODE_PRIVATE)
+
+        // not logged in
+        if (!mSettings.getBoolean(MySettings.APP_PREFERENCES_LOGGED_IN, false)) {
+            val intent = Intent(this, WelcomeActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            finish()
+        }
     }
 }
