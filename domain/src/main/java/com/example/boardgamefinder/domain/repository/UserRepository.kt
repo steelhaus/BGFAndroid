@@ -1,7 +1,6 @@
 package com.example.boardgamefinder.domain.repository
 
-import com.example.boardgamefinder.domain.models.Event
-import com.example.boardgamefinder.domain.models.UserCredentials
+import com.example.boardgamefinder.domain.models.*
 
 /**
  * Interface for interacting with user data
@@ -9,8 +8,8 @@ import com.example.boardgamefinder.domain.models.UserCredentials
 interface UserRepository {
     // register user
     suspend fun register(credentials: UserCredentials): Result<String>
-    // ToDo remove example
-    suspend fun getBreeds(): Result<List<String>>
+    suspend fun logIn(email: Email, password: Password): Result<Tokens>
+    suspend fun confirmCode(code: String, jwt: String): Result<Tokens>
     // ToDo move to event repository
     suspend fun getEvents(): Result<List<Event>>
 }

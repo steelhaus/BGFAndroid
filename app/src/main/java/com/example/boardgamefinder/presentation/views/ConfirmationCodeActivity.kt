@@ -1,7 +1,9 @@
 package com.example.boardgamefinder.presentation.views
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.boardgamefinder.R
@@ -10,12 +12,14 @@ import com.example.boardgamefinder.core.GenericOnFocus
 import com.example.boardgamefinder.core.GenericTextWatcher
 import com.example.boardgamefinder.core.MySettings
 import com.example.boardgamefinder.databinding.ActivityConfirmationCodeBinding
+import com.example.boardgamefinder.presentation.viewModels.ConfirmationCodeViewModel
 import java.util.*
 
 internal class ConfirmationCodeActivity : AppCompatActivity() {
 
     private var _binding: ActivityConfirmationCodeBinding? = null
     private val binding get() = _binding!!
+    private val confirmationCodeViewModel: ConfirmationCodeViewModel by viewModels()
 
     private var resendTimer: Timer? = null
 
@@ -26,10 +30,40 @@ internal class ConfirmationCodeActivity : AppCompatActivity() {
 
         setInputCode()
 
-        // ToDo move to vm
-        // timer for code resending
-        resendTimer = Timer()
-        setTimer()
+        // resend button states
+        confirmationCodeViewModel.resend.observe(this){
+            if(confirmationCodeViewModel.resend.value == true) {
+                binding.resendCode.isEnabled = true
+                binding.resendCode.setTextColor(MySettings.getSecondaryColor(this))
+                binding.nextResend.visibility = View.INVISIBLE
+            }else{
+                binding.resendCode.isEnabled = false
+                binding.resendCode.setTextColor(ContextCompat.getColor(this, R.color.dark_gray))
+                binding.nextResend.visibility = View.VISIBLE
+            }
+        }
+
+        //resend button
+        binding.resendCode.setOnClickListener { confirmationCodeViewModel.resendCode() }
+        // confirmButton
+        binding.confirm.setOnClickListener { confirmationCodeViewModel.confirm(getCode()) }
+
+        confirmationCodeViewModel.confirmed.observe(this){
+            if(confirmationCodeViewModel.confirmed.value == true) {
+                // open main activity
+                val intent = Intent(this, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+                finish()
+            }
+        }
+    }
+
+    private fun getCode() : String{
+        return binding.code1.text.toString()+
+                binding.code2.text.toString()+
+                binding.code3.text.toString()+
+                binding.code4.text.toString()
     }
 
     private fun setInputCode(){
@@ -52,25 +86,5 @@ internal class ConfirmationCodeActivity : AppCompatActivity() {
             code3.onFocusChangeListener = GenericOnFocus()
             code4.onFocusChangeListener = GenericOnFocus()
         }
-    }
-
-    /**
-     * Sets timer on 10 seconds, after 10 sec makes resend code button visible and enabled
-     */
-    private fun setTimer()
-    {
-        binding.resendCode.isEnabled = false
-        binding.resendCode.setTextColor(ContextCompat.getColor(this, R.color.dark_gray))
-        binding.nextResend.visibility = View.VISIBLE
-
-        resendTimer?.schedule(object : TimerTask() {
-            override fun run() {
-                runOnUiThread {
-                    binding.resendCode.isEnabled = true
-                    binding.resendCode.setTextColor(MySettings.getSecondaryColor(this@ConfirmationCodeActivity))
-                    binding.nextResend.visibility = View.INVISIBLE
-                }
-            }
-        }, 10000)
     }
 }

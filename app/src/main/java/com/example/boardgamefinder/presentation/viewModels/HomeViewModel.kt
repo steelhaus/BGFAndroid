@@ -9,7 +9,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.boardgamefinder.core.toMessage
 import com.example.boardgamefinder.data.retrofit.UserRepository
 import com.example.boardgamefinder.domain.models.Event
-import com.example.boardgamefinder.domain.usecase.GetBreedsUseCase
 import com.example.boardgamefinder.domain.usecase.GetEventsUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

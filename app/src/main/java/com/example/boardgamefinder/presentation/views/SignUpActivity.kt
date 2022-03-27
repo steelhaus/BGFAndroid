@@ -5,20 +5,16 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.fragment.app.viewModels
-import com.example.boardgamefinder.R
 import com.example.boardgamefinder.core.MySettings
-import com.example.boardgamefinder.databinding.ActivityMainBinding
 import com.example.boardgamefinder.databinding.ActivitySignUpBinding
 import com.example.boardgamefinder.domain.models.Email
 import com.example.boardgamefinder.domain.models.Password
-import com.example.boardgamefinder.presentation.viewModels.HomeViewModel
 import com.example.boardgamefinder.presentation.viewModels.SignUpViewModel
 
 internal class SignUpActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignUpBinding
     private lateinit var mSettings: SharedPreferences
-    private val homeViewModel: SignUpViewModel by viewModels()
+    private val signUpViewModel: SignUpViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,13 +27,13 @@ internal class SignUpActivity : AppCompatActivity() {
         binding.loginButton.setOnClickListener {openLogInActivity()}
 
         binding.signupButton.setOnClickListener {
-            homeViewModel.register(
+            signUpViewModel.register(
                 Email(binding.editEmail.text.toString()),
                 Password(binding.editPassword.text.toString()),
                 Password(binding.editPasswordConfirm.text.toString())) }
 
-        homeViewModel.success.observe(this){
-            if(homeViewModel.success.value == true) {
+        signUpViewModel.success.observe(this){
+            if(signUpViewModel.success.value == true) {
                 // open confirmation code activity
                 val intent = Intent(this, ConfirmationCodeActivity::class.java)
                 startActivity(intent)

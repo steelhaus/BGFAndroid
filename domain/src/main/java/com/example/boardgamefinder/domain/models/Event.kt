@@ -12,7 +12,7 @@ data class Event(
     val visitorsCount: Int,
     val visitorsLimit: Int,
     val distance: Int,
-    val creator: Creator,
+    val creator: User,
     val likes: Int,
     val liked: Boolean,
     val subscriptionStatus: SubscriptionStatus
