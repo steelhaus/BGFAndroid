@@ -24,7 +24,10 @@
             android:exported="false" />
         <activity
             android:name=".presentation.views.LogInActivity"
-            android:exported="true" />
+            android:exported="false" />
+        <activity
+            android:name=".presentation.views.SignUpActivity"
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

@@ -2,7 +2,7 @@ package com.example.boardgamefinder.domain.usecase
 
 import com.example.boardgamefinder.domain.models.UserCredentials
 import com.example.boardgamefinder.domain.repository.UserRepository
-import com.example.boardgamefinder.domain.utils.PasswordValidator
+import com.example.boardgamefinder.domain.utils.CredentialsValidator
 
 /**
  * Use case for user registration
@@ -11,11 +11,10 @@ import com.example.boardgamefinder.domain.utils.PasswordValidator
  */
 class RegisterUseCase(
     private val userRepository: UserRepository,
-    private val passwordValidator: PasswordValidator
+    private val credentialsValidator: CredentialsValidator
 ) {
-
-    fun execute(credentials: UserCredentials): Result<Boolean> {
-        val credentialsValidationResult = credentials.validate(passwordValidator)
+    suspend fun execute(credentials: UserCredentials): Result<String> {
+        val credentialsValidationResult = credentials.validate(credentialsValidator)
         if (credentialsValidationResult.isFailure)
             return credentialsValidationResult
         return userRepository.register(credentials)
