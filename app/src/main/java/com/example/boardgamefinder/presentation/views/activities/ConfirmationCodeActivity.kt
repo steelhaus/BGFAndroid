@@ -1,8 +1,9 @@
-package com.example.boardgamefinder.presentation.views
+package com.example.boardgamefinder.presentation.views.activities
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -45,8 +46,17 @@ internal class ConfirmationCodeActivity : AppCompatActivity() {
 
         //resend button
         binding.resendCode.setOnClickListener { confirmationCodeViewModel.resendCode() }
+
         // confirmButton
-        binding.confirm.setOnClickListener { confirmationCodeViewModel.confirm(getCode()) }
+        binding.confirm.setOnClickListener {
+            with(getCode()){
+                if(length != 4)
+                    // ToDo move to string resourse
+                    Toast.makeText(this@ConfirmationCodeActivity, "Please, input the confirmation code first", Toast.LENGTH_SHORT).show()
+                else
+                    confirmationCodeViewModel.confirm(this)
+            }
+        }
 
         confirmationCodeViewModel.confirmed.observe(this){
             if(confirmationCodeViewModel.confirmed.value == true) {
@@ -55,7 +65,14 @@ internal class ConfirmationCodeActivity : AppCompatActivity() {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
                 finish()
+            }else{
+                // ToDo clean code input
             }
+        }
+
+        confirmationCodeViewModel.goBack.observe(this){
+            if(confirmationCodeViewModel.goBack.value == true)
+                onBackPressed()
         }
     }
 

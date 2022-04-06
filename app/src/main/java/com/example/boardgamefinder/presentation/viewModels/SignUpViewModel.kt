@@ -2,7 +2,6 @@ package com.example.boardgamefinder.presentation.viewModels
 
 import android.app.Application
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
@@ -40,7 +39,7 @@ internal class SignUpViewModel(app: Application) : AndroidViewModel(app) {
                 else if(result.exceptionOrNull() != null) {
                     _success.value = false
                     if(result.exceptionOrNull() is DataException.Response422)
-                        Toast.makeText(getApplication(), (getApplication() as Context).getString(R.string.UserAlreadyExists), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(getApplication(), (getApplication() as Context).getString(R.string.user_already_exists), Toast.LENGTH_SHORT).show()
                     else
                         Toast.makeText(getApplication(), (result.exceptionOrNull() as Exception).toMessage(getApplication()), Toast.LENGTH_LONG).show()
                 }

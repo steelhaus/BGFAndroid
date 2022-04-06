@@ -1,4 +1,4 @@
-package com.example.boardgamefinder.presentation.views
+package com.example.boardgamefinder.presentation.views.activities
 
 import android.content.Intent
 import android.content.SharedPreferences
@@ -37,6 +37,8 @@ internal class SignUpActivity : AppCompatActivity() {
                 // open confirmation code activity
                 val intent = Intent(this, ConfirmationCodeActivity::class.java)
                 startActivity(intent)
+            }else{
+                //ToDo highlight fields
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.example.boardgamefinder.data.retrofit
 
+import com.example.boardgamefinder.data.retrofit.models.CodeRequest
 import com.example.boardgamefinder.data.retrofit.models.GenericResponse
 import com.example.boardgamefinder.data.retrofit.models.UserCredentialsRequest
 import com.example.boardgamefinder.domain.models.*
@@ -16,7 +17,7 @@ class UserRepository : UserRepository {
         var result: Result<String>?
 
         withContext(Dispatchers.IO) {
-            val response: Response<GenericResponse<String>>
+            val response: Response<GenericResponse<Token>>
 
             try {
                 response = ApiClient.instance.register(
@@ -30,7 +31,7 @@ class UserRepository : UserRepository {
             result = if(!response.isSuccessful || !response.body()!!.success)
                 Result.failure(DataException.responseCodeToException(response.code()))
             else
-                Result.success(response.body()!!.result)
+                Result.success(response.body()!!.result.token)
         }
 
         return result!!
@@ -60,7 +61,6 @@ class UserRepository : UserRepository {
         return result!!
     }
 
-    // ToDo ask for error codes
     override suspend fun confirmCode(code: String, jwt: String): Result<Tokens>{
         var result: Result<Tokens>?
 
@@ -68,7 +68,7 @@ class UserRepository : UserRepository {
             val response: Response<GenericResponse<Tokens>>
 
             try {
-                response = ApiClient.instance.confirmCode(jwt, code)
+                response = ApiClient.instance.confirmCode(jwt, CodeRequest(code))
             } catch (e: Exception) {
                 result = Result.failure(DataException.InternetException())
                 return@withContext

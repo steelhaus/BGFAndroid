@@ -1,4 +1,4 @@
-package com.example.boardgamefinder.presentation.views
+package com.example.boardgamefinder.presentation.views.activities
 
 import android.app.Activity
 import android.content.Intent
@@ -27,7 +27,11 @@ internal class LogInActivity : AppCompatActivity() {
         ) }
 
         logInViewModel.success.observe(this){
-            openActivity(MainActivity::class.java)
+            if(logInViewModel.success.value == true)
+                openActivity(MainActivity::class.java)
+            else{
+                //ToDo highlight fields
+            }
         }
     }
 

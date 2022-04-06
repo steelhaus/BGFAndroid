@@ -44,5 +44,8 @@
     <string name="leave">Leave</string>
     <string name="events_feed">Events feed</string>
     <string name="my_events">My events</string>
-    <string name="UserAlreadyExists">Such user already exists</string>
+    <string name="user_already_exists">Such user already exists</string>
+    <string name="wrong_email_password">Wrong email or password</string>
+    <string name="create_event">Create event</string>
+    <string name="event_title">Event title</string>
 </resources>
