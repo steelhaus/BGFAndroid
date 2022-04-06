@@ -1,4 +1,4 @@
-package com.example.boardgamefinder.presentation.views
+package com.example.boardgamefinder.presentation.views.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,14 +8,14 @@ import android.view.ViewGroup
 import com.example.boardgamefinder.R
 
 /**
- * Fragment for creating a new event tab
+ * Fragment for notification tab (can be messages in later version)
  */
-internal class NewEventFragment : Fragment() {
+internal class NotificationsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add, container, false)
+        return inflater.inflate(R.layout.fragment_notifications, container, false)
     }
 }

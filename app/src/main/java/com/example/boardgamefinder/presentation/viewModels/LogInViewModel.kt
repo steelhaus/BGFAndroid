@@ -8,8 +8,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.boardgamefinder.R
 import com.example.boardgamefinder.core.MySettings
 import com.example.boardgamefinder.core.toMessage
+import com.example.boardgamefinder.data.retrofit.DataException
 import com.example.boardgamefinder.data.retrofit.UserRepository
 import com.example.boardgamefinder.domain.models.Email
 import com.example.boardgamefinder.domain.models.Password
@@ -35,9 +37,12 @@ internal class LogInViewModel(app: Application) : AndroidViewModel(app) {
                 if (result.isSuccess) {
                     loginSuccess(result.getOrNull()!!)
                 }
-                // ToDo handle errors
                 else if(result.exceptionOrNull() != null) {
-                    Toast.makeText(getApplication(), (result.exceptionOrNull() as Exception).toMessage(getApplication()), Toast.LENGTH_LONG).show()
+                    _success.value = false
+                    if(result.exceptionOrNull() is DataException.Response401)
+                        Toast.makeText(getApplication(), (getApplication() as Context).getString(R.string.wrong_email_password), Toast.LENGTH_SHORT).show()
+                    else
+                        Toast.makeText(getApplication(), (result.exceptionOrNull() as Exception).toMessage(getApplication()), Toast.LENGTH_LONG).show()
                 }
             }
         }

@@ -1,4 +1,4 @@
-package com.example.boardgamefinder.presentation.views
+package com.example.boardgamefinder.presentation.views.activities
 
 import android.content.Intent
 import android.content.SharedPreferences
@@ -8,6 +8,11 @@ import androidx.fragment.app.Fragment
 import com.example.boardgamefinder.R
 import com.example.boardgamefinder.core.MySettings
 import com.example.boardgamefinder.databinding.ActivityMainBinding
+import com.example.boardgamefinder.presentation.views.fragments.HomeFragment
+import com.example.boardgamefinder.presentation.views.fragments.NewEventFragment
+import com.example.boardgamefinder.presentation.views.fragments.NotificationsFragment
+import com.example.boardgamefinder.presentation.views.fragments.ProfileFragment
+import com.example.boardgamefinder.presentation.views.fragments.SearchFragment
 
 /**
  * Activity for holding all app tabs
@@ -59,7 +64,8 @@ internal class MainActivity : AppCompatActivity() {
             fragment !is SearchFragment &&
             fragment !is NewEventFragment &&
             fragment !is NotificationsFragment &&
-            fragment !is ProfileFragment)
+            fragment !is ProfileFragment
+        )
             fragmentTransaction.addToBackStack( "tag" )
 
         fragmentTransaction.commit()

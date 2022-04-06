@@ -23,6 +23,8 @@
         <item name="colorSurface">@color/white</item>
 
         <item name="chipCornerRadius">6dp</item>
+
+        <!--ToDo item name="android:timePickerDialogTheme">@style/Dialog.Theme</item-->
     </style>
 
     <style name="Widget.BoardGameFinder.Button" parent="Widget.MaterialComponents.Button">
@@ -73,6 +75,20 @@
         <item name="android:textSize">10sp</item>
         <item name="minHeight">0dp</item>
         <item name="android:padding">2dp</item>
+    </style>
+
+    <style name="Widget.BoardGameFinder.MaterialDatePicker" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="materialCalendarHeaderToggleButton">@style/Widget.BoardGameFinder.MaterialCalendar.HeaderToggleButton</item>
+    </style>
+
+    <style name="Widget.BoardGameFinder.MaterialCalendar.HeaderToggleButton" parent="Widget.MaterialComponents.MaterialCalendar.HeaderToggleButton">
+        <item name="android:visibility">gone</item>
+    </style>
+
+    <style name="Dialog.Theme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorPrimary">?colorPrimary</item>
+        <item name="colorPrimaryDark">?colorPrimaryVariant</item>
+        <item name="colorAccent">?colorSecondary</item>
     </style>
 
 </resources>

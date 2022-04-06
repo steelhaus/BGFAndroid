@@ -1,37 +1,33 @@
-package com.example.boardgamefinder.presentation.views
+package com.example.boardgamefinder.presentation.views.fragments
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.boardgamefinder.R
 import com.example.boardgamefinder.databinding.FragmentHomeBinding
-import com.example.boardgamefinder.databinding.FragmentProfileBinding
-import com.example.boardgamefinder.domain.models.Event
+import com.example.boardgamefinder.databinding.FragmentMyEventsBinding
 import com.example.boardgamefinder.presentation.adapters.EventAdapter
+import com.example.boardgamefinder.presentation.adapters.EventShortAdapter
 import com.example.boardgamefinder.presentation.viewModels.HomeViewModel
+import com.example.boardgamefinder.presentation.viewModels.MyEventsViewModel
 
-/**
- * Fragment for event feed tab
- */
-internal class HomeFragment : Fragment() {
-    private var _binding: FragmentHomeBinding? = null
+class MyEventsFragment : Fragment() {
+    private var _binding: FragmentMyEventsBinding? = null
     private val binding get() = _binding!!
-    private val homeViewModel: HomeViewModel by viewModels()
+    private val myEventsViewModel: MyEventsViewModel by viewModels()
 
-    private var adapter: EventAdapter? = null
+    private var adapter: EventShortAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        // Inflate the layout for this fragment
+        _binding = FragmentMyEventsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -40,8 +36,8 @@ internal class HomeFragment : Fragment() {
 
         binding.recycler.layoutManager = LinearLayoutManager(context)
 
-        homeViewModel.events.observe(viewLifecycleOwner) {
-            adapter = EventAdapter(homeViewModel.events.value ?: listOf())
+        myEventsViewModel.events.observe(viewLifecycleOwner) {
+            adapter = EventShortAdapter(myEventsViewModel.events.value ?: listOf())
             binding.recycler.adapter = adapter
         }
     }

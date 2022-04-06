@@ -40,5 +40,8 @@
     <string name="leave">Покинуть</string>
     <string name="events_feed">Лента мероприятий</string>
     <string name="my_events">Мои мероприятия</string>
-    <string name="UserAlreadyExists">Такой пользователь уже существует</string>
+    <string name="user_already_exists">Такой пользователь уже существует</string>
+    <string name="wrong_email_password">Неверный адрес электронной почты или пароль</string>
+    <string name="create_event">Создать мероприятие</string>
+    <string name="event_title">Название мероприятия</string>
 </resources>

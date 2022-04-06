@@ -14,19 +14,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BoardGameFinder">
         <activity
-            android:name=".presentation.views.PasswordRecoveryActivity"
+            android:name=".presentation.views.activities.PasswordRecoveryActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.views.ConfirmationCodeActivity"
+            android:name=".presentation.views.activities.ConfirmationCodeActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.views.WelcomeActivity"
+            android:name=".presentation.views.activities.WelcomeActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.views.LogInActivity"
+            android:name=".presentation.views.activities.LogInActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.views.SignUpActivity"
+            android:name=".presentation.views.activities.SignUpActivity"
             android:exported="false" />
 
         <meta-data
@@ -34,7 +34,7 @@
             android:value="@string/google_map_api_key" />
 
         <activity
-            android:name=".presentation.views.MainActivity"
+            android:name=".presentation.views.activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

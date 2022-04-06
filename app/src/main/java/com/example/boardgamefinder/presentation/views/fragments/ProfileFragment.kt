@@ -1,4 +1,4 @@
-package com.example.boardgamefinder.presentation.views
+package com.example.boardgamefinder.presentation.views.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.boardgamefinder.databinding.FragmentProfileBinding
 import com.example.boardgamefinder.presentation.viewModels.ProfileViewModel
+import com.example.boardgamefinder.presentation.views.activities.MainActivity
 
 
 /**

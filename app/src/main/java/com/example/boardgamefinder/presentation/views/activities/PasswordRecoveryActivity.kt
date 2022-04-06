@@ -1,4 +1,4 @@
-package com.example.boardgamefinder.presentation.views
+package com.example.boardgamefinder.presentation.views.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
