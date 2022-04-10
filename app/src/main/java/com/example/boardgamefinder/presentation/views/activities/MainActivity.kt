@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.boardgamefinder.R
 import com.example.boardgamefinder.core.MySettings
+import com.example.boardgamefinder.databinding.ActivityLogInBinding
 import com.example.boardgamefinder.databinding.ActivityMainBinding
 import com.example.boardgamefinder.presentation.views.fragments.*
 
@@ -16,7 +17,9 @@ import com.example.boardgamefinder.presentation.views.fragments.*
  * Activity for holding all app tabs
  */
 internal class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+    private var _binding: ActivityMainBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var mSettings: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,7 +27,7 @@ internal class MainActivity : AppCompatActivity() {
 
         checkForAuth()
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         replaceFragment(HomeFragment())
@@ -97,5 +100,10 @@ internal class MainActivity : AppCompatActivity() {
             else
                 (supportFragmentManager.findFragmentById(R.id.main_frame) as SearchFragment).locationGranted()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

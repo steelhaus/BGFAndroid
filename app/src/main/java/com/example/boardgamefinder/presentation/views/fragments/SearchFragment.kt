@@ -29,8 +29,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.example.boardgamefinder.R
 import com.example.boardgamefinder.core.EventClusteringItem
@@ -38,6 +42,7 @@ import com.example.boardgamefinder.core.OwnIconRendered
 import com.example.boardgamefinder.databinding.FragmentSearchBinding
 import com.example.boardgamefinder.domain.models.Event
 import com.example.boardgamefinder.presentation.viewModels.SearchViewModel
+import com.example.boardgamefinder.presentation.views.activities.MainActivity
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.*
@@ -278,10 +283,18 @@ internal class SearchFragment : Fragment() {
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .transition(DrawableTransitionOptions.withCrossFade())
             .error(R.color.dark_gray)
-            .centerCrop()
+            .transform(CenterCrop(), GranularRoundedCorners(50F, 50F, 0F, 0F))
             .into(image)
 
-        // ToDo set openButton
+        // open event page
+        openButton.setOnClickListener {
+            eventBottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
+            (activity as MainActivity).replaceFragment(EventDetailsFragment(event))
+        }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 }

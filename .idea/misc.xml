@@ -38,11 +38,14 @@
         <entry key="..\:/Users/narkada/AndroidStudioProjects/BoardGameFinder/app/src/main/res/layout/event_raw_object.xml" value="0.264" />
         <entry key="..\:/Users/narkada/AndroidStudioProjects/BoardGameFinder/app/src/main/res/layout/event_short_raw_object.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/narkada/AndroidStudioProjects/BoardGameFinder/app/src/main/res/layout/fragment_add.xml" value="0.264" />
+        <entry key="..\:/Users/narkada/AndroidStudioProjects/BoardGameFinder/app/src/main/res/layout/fragment_event_details.xml" value="0.264" />
+        <entry key="..\:/Users/narkada/AndroidStudioProjects/BoardGameFinder/app/src/main/res/layout/fragment_event_memebers.xml" value="0.22135416666666666" />
         <entry key="..\:/Users/narkada/AndroidStudioProjects/BoardGameFinder/app/src/main/res/layout/fragment_home.xml" value="0.264" />
         <entry key="..\:/Users/narkada/AndroidStudioProjects/BoardGameFinder/app/src/main/res/layout/fragment_my_events.xml" value="0.264" />
         <entry key="..\:/Users/narkada/AndroidStudioProjects/BoardGameFinder/app/src/main/res/layout/fragment_notifications.xml" value="0.16927083333333334" />
         <entry key="..\:/Users/narkada/AndroidStudioProjects/BoardGameFinder/app/src/main/res/layout/fragment_profile.xml" value="0.264" />
         <entry key="..\:/Users/narkada/AndroidStudioProjects/BoardGameFinder/app/src/main/res/layout/fragment_search.xml" value="0.20677083333333332" />
+        <entry key="..\:/Users/narkada/AndroidStudioProjects/BoardGameFinder/app/src/main/res/layout/member_raw_object.xml" value="0.22135416666666666" />
         <entry key="..\:/Users/narkada/AndroidStudioProjects/BoardGameFinder/app/src/main/res/menu/bottom_navigation.xml" value="0.2109375" />
         <entry key="..\:/Users/narkada/AndroidStudioProjects/BoardGameFinder/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.155" />
         <entry key="..\:/Users/narkada/AndroidStudioProjects/BoardGameFinder/core/src/main/res/drawable/ic_dice.xml" value="0.133" />

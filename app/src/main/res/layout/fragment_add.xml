@@ -53,6 +53,7 @@ tools:context=".presentation.views.fragments.NewEventFragment">
                 android:orientation="vertical">
 
                 <TextView
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Choose picture for your event:"
@@ -63,6 +64,7 @@ tools:context=".presentation.views.fragments.NewEventFragment">
                     android:layout_height="wrap_content">
 
                     <ImageView
+                        android:visibility="gone"
                         android:id="@+id/event_image"
                         app:layout_constraintTop_toTopOf="parent"
                         android:layout_width="match_parent"

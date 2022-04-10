@@ -104,4 +104,9 @@ internal class ConfirmationCodeActivity : AppCompatActivity() {
             code4.onFocusChangeListener = GenericOnFocus()
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 }

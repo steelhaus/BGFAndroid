@@ -14,6 +14,7 @@ import com.example.boardgamefinder.presentation.adapters.EventAdapter
 import com.example.boardgamefinder.presentation.adapters.EventShortAdapter
 import com.example.boardgamefinder.presentation.viewModels.HomeViewModel
 import com.example.boardgamefinder.presentation.viewModels.MyEventsViewModel
+import com.example.boardgamefinder.presentation.views.activities.MainActivity
 
 class MyEventsFragment : Fragment() {
     private var _binding: FragmentMyEventsBinding? = null
@@ -37,7 +38,9 @@ class MyEventsFragment : Fragment() {
         binding.recycler.layoutManager = LinearLayoutManager(context)
 
         myEventsViewModel.events.observe(viewLifecycleOwner) {
-            adapter = EventShortAdapter(myEventsViewModel.events.value ?: listOf())
+            adapter = EventShortAdapter(myEventsViewModel.events.value ?: listOf()){
+                (activity as MainActivity).replaceFragment(EventDetailsFragment(it))
+            }
             binding.recycler.adapter = adapter
         }
     }
