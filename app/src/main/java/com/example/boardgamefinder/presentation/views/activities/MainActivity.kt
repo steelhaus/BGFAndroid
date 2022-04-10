@@ -2,17 +2,15 @@ package com.example.boardgamefinder.presentation.views.activities
 
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.boardgamefinder.R
 import com.example.boardgamefinder.core.MySettings
 import com.example.boardgamefinder.databinding.ActivityMainBinding
-import com.example.boardgamefinder.presentation.views.fragments.HomeFragment
-import com.example.boardgamefinder.presentation.views.fragments.NewEventFragment
-import com.example.boardgamefinder.presentation.views.fragments.NotificationsFragment
-import com.example.boardgamefinder.presentation.views.fragments.ProfileFragment
-import com.example.boardgamefinder.presentation.views.fragments.SearchFragment
+import com.example.boardgamefinder.presentation.views.fragments.*
 
 /**
  * Activity for holding all app tabs
@@ -43,9 +41,9 @@ internal class MainActivity : AppCompatActivity() {
                 R.id.nav_add -> {
                     replaceFragment(NewEventFragment())
                 }
-                R.id.nav_notifications -> {
+                /*R.id.nav_notifications -> {
                     replaceFragment(NotificationsFragment())
-                }
+                }*/
                 R.id.nav_profile -> {
                     replaceFragment(ProfileFragment())
                 }
@@ -80,6 +78,24 @@ internal class MainActivity : AppCompatActivity() {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
             finish()
+        }
+    }
+
+    /**
+     * when user agrees the permission
+     */
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String?>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == SearchFragment.LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED)
+                Toast.makeText(this, "Need location permission", Toast.LENGTH_SHORT).show()
+            else
+                (supportFragmentManager.findFragmentById(R.id.main_frame) as SearchFragment).locationGranted()
         }
     }
 }

@@ -13,7 +13,7 @@ import retrofit2.http.*
  * API for app network operations
  */
 internal interface BoardGameFinderApi {
-    @GET("events/")
+    @GET("events")
     suspend fun getEvents(): Response<GenericResponse<List<Event>>>
 
     @POST("profile")

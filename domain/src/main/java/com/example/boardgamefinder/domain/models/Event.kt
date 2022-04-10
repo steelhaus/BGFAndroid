@@ -15,7 +15,9 @@ data class Event(
     val creator: User,
     val likes: Int,
     val liked: Boolean,
-    val subscriptionStatus: SubscriptionStatus
+    val subscriptionStatus: SubscriptionStatus,
+    val latitude: Double,
+    val longitude: Double
 )
 
 {
