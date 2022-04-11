@@ -198,6 +198,13 @@ tools:context=".presentation.views.fragments.NewEventFragment">
                     android:layout_width="match_parent"
                     android:layout_height="200dp"/>
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/createButton"
+                    android:layout_marginTop="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/create"/>
+
             </LinearLayout>
 
         </ScrollView>

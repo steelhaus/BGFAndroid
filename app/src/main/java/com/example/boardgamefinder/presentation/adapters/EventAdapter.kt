@@ -87,12 +87,14 @@ class EventAdapter(private val items: List<Event>, private val openEvent: (Event
             }
         }
 
-        val uniqueTags = items[position].tags.distinctBy { it.title }
-        // setting tags
-        for(i in uniqueTags){
-            val chip = Chip(context)
-            chip.text = i.title
-            holder.tags.addView(chip)
+        items[position].tags?.let { tags ->
+            val uniqueTags = tags.distinctBy { it.title }
+            // setting tags
+            for (i in uniqueTags) {
+                val chip = Chip(context)
+                chip.text = i.title
+                holder.tags.addView(chip)
+            }
         }
 
         // set event image

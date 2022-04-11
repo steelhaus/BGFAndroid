@@ -14,6 +14,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.boardgamefinder.R
 import com.example.boardgamefinder.databinding.FragmentEventDetailsBinding
 import com.example.boardgamefinder.domain.models.Event
+import com.example.boardgamefinder.presentation.views.activities.MainActivity
 import com.google.android.material.chip.Chip
 
 
@@ -60,12 +61,18 @@ class EventDetailsFragment(val event: Event) : Fragment() {
         // set description scrollable
         binding.description.movementMethod = ScrollingMovementMethod()
 
-        val uniqueTags = event.tags.distinctBy { it.title }
-        // setting tags
-        for(i in uniqueTags){
-            val chip = Chip(context)
-            chip.text = i.title
-            binding.tags.addView(chip)
+        event.tags?.let { tags ->
+            val uniqueTags = tags.distinctBy { it.title }
+            // setting tags
+            for (i in uniqueTags) {
+                val chip = Chip(context)
+                chip.text = i.title
+                binding.tags.addView(chip)
+            }
+        }
+
+        binding.membersButton.setOnClickListener {
+            (activity as MainActivity).replaceFragment(EventMembersFragment(event))
         }
     }
 

@@ -7,7 +7,7 @@ data class Event(
     val title: String,
     val imageUrl: String?,
     val date: String,
-    val tags: List<Tag>,
+    val tags: List<Tag>?,
     val locationShort: String,
     val visitorsCount: Int,
     val visitorsLimit: Int,

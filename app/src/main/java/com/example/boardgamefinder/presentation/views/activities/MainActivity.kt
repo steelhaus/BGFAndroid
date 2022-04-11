@@ -76,7 +76,7 @@ internal class MainActivity : AppCompatActivity() {
         mSettings = getSharedPreferences(MySettings.APP_PREFERENCES, MODE_PRIVATE)
 
         // not logged in
-        if (!mSettings.getBoolean(MySettings.APP_PREFERENCES_LOGGED_IN, false)) {
+        if (!mSettings.getBoolean(MySettings.APP_PREFERENCES_LOGGED_IN, false) || mSettings.getString(MySettings.APP_PREFERENCES_TOKEN, "")?.isEmpty() == true) {
             val intent = Intent(this, WelcomeActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)

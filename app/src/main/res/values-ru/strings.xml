@@ -45,4 +45,5 @@
     <string name="create_event">Создать мероприятие</string>
     <string name="event_title">Название мероприятия</string>
     <string name="members">Участники</string>
+    <string name="create">Создать</string>
 </resources>

@@ -105,4 +105,48 @@ class UserRepository : UserRepository {
 
         return result!!
     }
+
+    override suspend fun createEvent(jwt: String, event: CreatingEvent): Result<Int> {
+        var result: Result<Int>?
+
+        withContext(Dispatchers.IO) {
+            val response: Response<GenericResponse<Int>>
+
+            try {
+                response = ApiClient.instance.createEvent(jwt, event)
+            } catch (e: Exception) {
+                result = Result.failure(DataException.InternetException())
+                return@withContext
+            }
+
+            result = if(!response.isSuccessful || !response.body()!!.success)
+                Result.failure(DataException.responseCodeToException(response.code()))
+            else
+                Result.success(response.body()!!.result)
+        }
+
+        return result!!
+    }
+
+    override suspend fun getEventMembers(eventId: Int): Result<List<User>> {
+        var result: Result<List<User>>?
+
+        withContext(Dispatchers.IO) {
+            val response: Response<GenericResponse<List<User>>>
+
+            try {
+                response = ApiClient.instance.getEventMembers()
+            } catch (e: Exception) {
+                result = Result.failure(DataException.InternetException())
+                return@withContext
+            }
+
+            result = if(!response.isSuccessful || !response.body()!!.success)
+                Result.failure(DataException.responseCodeToException(response.code()))
+            else
+                Result.success(response.body()!!.result)
+        }
+
+        return result!!
+    }
 }

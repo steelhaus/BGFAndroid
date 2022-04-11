@@ -49,4 +49,5 @@
     <string name="create_event">Create event</string>
     <string name="event_title">Event title</string>
     <string name="members">Members</string>
+    <string name="create">Create</string>
 </resources>
