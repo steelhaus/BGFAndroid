@@ -53,6 +53,7 @@ tools:context=".presentation.views.fragments.NewEventFragment">
                 android:orientation="vertical">
 
                 <TextView
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Choose picture for your event:"
@@ -63,6 +64,7 @@ tools:context=".presentation.views.fragments.NewEventFragment">
                     android:layout_height="wrap_content">
 
                     <ImageView
+                        android:visibility="gone"
                         android:id="@+id/event_image"
                         app:layout_constraintTop_toTopOf="parent"
                         android:layout_width="match_parent"
@@ -195,6 +197,13 @@ tools:context=".presentation.views.fragments.NewEventFragment">
                     android:name="com.google.android.gms.maps.SupportMapFragment"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/createButton"
+                    android:layout_marginTop="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/create"/>
 
             </LinearLayout>
 

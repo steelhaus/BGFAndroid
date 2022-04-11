@@ -10,11 +10,14 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.boardgamefinder.R
 import com.example.boardgamefinder.databinding.FragmentAddBinding
+import com.example.boardgamefinder.domain.models.CreatingEvent
 import com.example.boardgamefinder.presentation.viewModels.NewEventViewModel
+import com.example.boardgamefinder.presentation.views.activities.MainActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
@@ -26,6 +29,7 @@ import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener
 import java.io.IOException
+import java.sql.Time
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -40,7 +44,13 @@ internal class NewEventFragment : Fragment() {
     private val hour = 0
     private val minute = 0
 
+    private val simpleFormat =
+        SimpleDateFormat("yyyy-MM-dd", Locale.US)
+
     private lateinit var map: GoogleMap
+
+    private var latLng: LatLng? = null
+    private var locationShort: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,11 +66,40 @@ internal class NewEventFragment : Fragment() {
         setDatePicker()
         setTimePicker()
         setMap()
+
+        binding.createButton.setOnClickListener { createEvent() }
+
+        //ToDo set observer -> go to my events
+        newEventViewModel.created.observe(viewLifecycleOwner){
+            (activity as MainActivity).replaceFragment(ProfileFragment())
+        }
+    }
+
+    private fun createEvent(){
+        if(binding.title.text == null || binding.title.text?.isEmpty() == true
+            || binding.description.text == null || binding.description.text?.isEmpty() == true
+            || binding.date.text == null || binding.date.text?.isEmpty() == true
+            || binding.time.text == null || binding.time.text?.isEmpty() == true
+            || binding.location.text == null || binding.location.text?.isEmpty() == true
+            || (binding.limit.text != null && binding.limit.text.toString().isNotEmpty() && binding.limit.text.toString().toInt() < 0)){
+            Toast.makeText(context, "Please, fill in the necessary fields",Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        newEventViewModel.createEvent(CreatingEvent(
+            binding.title.text.toString(),
+            binding.description.text.toString(),
+            binding.date.text.toString() + "T" + binding.time.text.toString() + ":00Z",
+            locationShort,
+            if(binding.limit.text == null || binding.limit.text.toString().isEmpty()) 0 else binding.limit.text.toString().toInt(),
+            latLng?.latitude ?: 0.0,
+            latLng?.longitude ?: 0.0
+        ))
     }
 
     private fun setTimePicker(){
-        val onTimeSetListener = TimePickerDialog.OnTimeSetListener { _, selectedHour, selectedMinute ->
-            binding.time.setText(String.format(Locale.getDefault(), "%02d:%02d", selectedHour, selectedMinute))
+        val onTimeSetListener = TimePickerDialog.OnTimeSetListener { _, _selectedHour, _selectedMinute ->
+            binding.time.setText(String.format(Locale.getDefault(), "%02d:%02d", _selectedHour, _selectedMinute))
         }
 
         val timePicker = TimePickerDialog(context, onTimeSetListener, hour, minute, true)
@@ -92,10 +131,9 @@ internal class NewEventFragment : Fragment() {
             // It will be negative, so that's the -1
             val offsetFromUTC = timeZoneUTC.getOffset(Date().time) * -1
             // Create a date format, then a date object with our offset
-            val simpleFormat =
-                SimpleDateFormat("yyyy-MM-dd", Locale.US)
             val date = Date(selection + offsetFromUTC)
             binding.date.setText(simpleFormat.format(date))
+
         } as MaterialPickerOnPositiveButtonClickListener<Long>)
 
         binding.date.inputType = InputType.TYPE_NULL
@@ -150,7 +188,7 @@ internal class NewEventFragment : Fragment() {
                 if (!newEventViewModel.validateCoordinates(binding.location.text.toString()))
                     return
 
-                val latLng = with(binding.location.text.toString().split(", ").toTypedArray()){
+                latLng = with(binding.location.text.toString().split(", ").toTypedArray()){
                     LatLng(this[0].toDouble(), this[1].toDouble())
                 }
 
@@ -158,20 +196,26 @@ internal class NewEventFragment : Fragment() {
                 val mo = MarkerOptions()
                 val geocoder = Geocoder(activity)
                 try {
-                    val addressList = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
+                    val addressList = geocoder.getFromLocation(latLng!!.latitude, latLng!!.longitude, 1)
                     if (addressList.size > 0) {
                         val adr = addressList[0]
-                        mo.title(adr.getAddressLine(0))
+                        locationShort = adr.getAddressLine(0)
+                        mo.title(locationShort)
                     }
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
-                mo.position(latLng)
+                mo.position(latLng!!)
                 map.clear()
-                map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10f))
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng!!, 10f))
                 map.addMarker(mo)
             }
         })
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

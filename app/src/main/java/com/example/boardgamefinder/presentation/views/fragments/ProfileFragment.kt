@@ -33,15 +33,6 @@ internal class ProfileFragment : Fragment() {
         binding.eventsButton.setOnClickListener {
             (activity as MainActivity).replaceFragment(MyEventsFragment())
         }
-
-        // ToDo remove example
-        /*binding.getBreedsButton.setOnClickListener {
-            profileViewModel.getBreeds()
-        }
-
-        profileViewModel.breedsCount.observe(viewLifecycleOwner) {
-            binding.countBreedsTextView.text = it.toString()
-        }*/
     }
 
     override fun onDestroy() {

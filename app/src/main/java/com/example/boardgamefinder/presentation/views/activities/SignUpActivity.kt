@@ -6,13 +6,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.example.boardgamefinder.core.MySettings
+import com.example.boardgamefinder.databinding.ActivityConfirmationCodeBinding
 import com.example.boardgamefinder.databinding.ActivitySignUpBinding
 import com.example.boardgamefinder.domain.models.Email
 import com.example.boardgamefinder.domain.models.Password
 import com.example.boardgamefinder.presentation.viewModels.SignUpViewModel
 
 internal class SignUpActivity : AppCompatActivity() {
-    private lateinit var binding: ActivitySignUpBinding
+    private var _binding: ActivitySignUpBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var mSettings: SharedPreferences
     private val signUpViewModel: SignUpViewModel by viewModels()
 
@@ -21,7 +24,7 @@ internal class SignUpActivity : AppCompatActivity() {
 
         checkCode()
 
-        binding = ActivitySignUpBinding.inflate(layoutInflater)
+        _binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.loginButton.setOnClickListener {openLogInActivity()}
@@ -58,5 +61,10 @@ internal class SignUpActivity : AppCompatActivity() {
             val intent = Intent(this, ConfirmationCodeActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

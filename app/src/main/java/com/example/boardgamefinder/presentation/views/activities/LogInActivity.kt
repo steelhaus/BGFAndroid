@@ -5,18 +5,21 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import com.example.boardgamefinder.databinding.ActivityConfirmationCodeBinding
 import com.example.boardgamefinder.databinding.ActivityLogInBinding
 import com.example.boardgamefinder.domain.models.Email
 import com.example.boardgamefinder.domain.models.Password
 import com.example.boardgamefinder.presentation.viewModels.LogInViewModel
 
 internal class LogInActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityLogInBinding
+    private var _binding: ActivityLogInBinding? = null
+    private val binding get() = _binding!!
+
     private val logInViewModel: LogInViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLogInBinding.inflate(layoutInflater)
+        _binding = ActivityLogInBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.signupButton.setOnClickListener {openActivity(SignUpActivity::class.java)}
@@ -42,4 +45,8 @@ internal class LogInActivity : AppCompatActivity() {
         finish()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 }

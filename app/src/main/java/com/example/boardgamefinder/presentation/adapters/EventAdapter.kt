@@ -6,15 +6,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.boardgamefinder.R
 import com.example.boardgamefinder.core.MySettings
 import com.example.boardgamefinder.domain.models.Event
+import com.example.boardgamefinder.presentation.views.activities.MainActivity
+import com.example.boardgamefinder.presentation.views.fragments.EventDetailsFragment
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 
-class EventAdapter(private val items: List<Event>) : RecyclerView.Adapter<EventAdapter.EventViewHolder>(){
+class EventAdapter(private val items: List<Event>, private val openEvent: (Event) -> Unit) : RecyclerView.Adapter<EventAdapter.EventViewHolder>(){
     private var context: Context? = null
 
     override fun getItemViewType(position: Int): Int {
@@ -78,12 +87,41 @@ class EventAdapter(private val items: List<Event>) : RecyclerView.Adapter<EventA
             }
         }
 
-        val uniqueTags = items[position].tags.distinctBy { it.title }
-        // setting tags
-        for(i in uniqueTags){
-            val chip = Chip(context)
-            chip.text = i.title
-            holder.tags.addView(chip)
+        items[position].tags?.let { tags ->
+            val uniqueTags = tags.distinctBy { it.title }
+            // setting tags
+            for (i in uniqueTags) {
+                val chip = Chip(context)
+                chip.text = i.title
+                holder.tags.addView(chip)
+            }
+        }
+
+        // set event image
+        context?.let{
+            Glide.with(it)
+                .load(items[position].imageUrl)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .error(R.color.dark_gray)
+                .transform(CenterCrop(), RoundedCorners(50))
+                .into(holder.eventImage)
+        }
+
+        // set avatar image
+        context?.let{
+            Glide.with(it)
+                .load(items[position].creator.imageUrl)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .circleCrop()
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .error(R.color.dark_gray)
+                .into(holder.avatar)
+        }
+
+        // open event page
+        holder.eventCard.setOnClickListener {
+            openEvent(items[position])
         }
     }
 
@@ -103,5 +141,7 @@ class EventAdapter(private val items: List<Event>) : RecyclerView.Adapter<EventA
         val joinButton: TextView = itemView.findViewById(R.id.join_button)
 
         val tags: ChipGroup = itemView.findViewById(R.id.tags)
+
+        val eventCard: CardView = itemView.findViewById(R.id.event_card)
     }
 }

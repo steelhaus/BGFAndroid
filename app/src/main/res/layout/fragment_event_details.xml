@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".presentation.views.fragments.EventDetailsFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineColorBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.4" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?colorPrimary"
+            app:layout_constraintBottom_toBottomOf="@+id/guidelineColorBottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.1" />
+
+            <TextView
+                android:id="@+id/title"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Title"
+                android:textColor="?colorOnPrimary"
+                app:layout_constraintBottom_toBottomOf="@+id/backButton"
+                app:layout_constraintTop_toTopOf="@+id/backButton" />
+
+            <ImageButton
+                android:id="@+id/backButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:contentDescription="@string/back_icon"
+                android:padding="12dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_back"
+                app:layout_constraintEnd_toStartOf="@id/guidelineStart"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="13dp"
+                android:layout_marginVertical="15dp"
+                android:orientation="horizontal"
+                android:weightSum="100"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:layout_editor_absoluteX="13dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/joinButton"
+                    style="@style/Widget.BoardGameFinder.Button.MediumButtonOnPrimary"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="30"
+                    android:text="Join" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/membersButton"
+                    style="@style/Widget.BoardGameFinder.Button.MediumButtonOnPrimary"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="30"
+                    android:text="@string/members" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_marginTop="10dp"
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_marginHorizontal="13dp"
+                android:layout_marginBottom="15dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+                app:layout_constraintTop_toBottomOf="@+id/backButton" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="13dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="@+id/guidelineColorBottom"
+            tools:layout_editor_absoluteX="13dp">
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="15dp"
+                android:scrollbars="none">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/tags"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </HorizontalScrollView>
+
+            <TextView
+                android:id="@+id/location"
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:text="location"
+                android:textColor="@color/dark_gray" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="15dp">
+
+                <TextView
+                    android:id="@+id/date"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:text="22.10.2022"
+                    android:textColor="@color/dark_gray" />
+
+                <TextView
+                    android:id="@+id/time"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_marginStart="50dp"
+                    android:text=" "
+                    android:textColor="@color/dark_gray" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_marginHorizontal="13dp"
+            android:layout_marginBottom="25dp"
+            android:id="@+id/description"
+            style="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_columnWeight="1"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque diam velit, convallis at justo nec, dignissim pharetra arcu. Sed at massa vel augue lobortis auctor. Nam id imperdiet turpis. Praesent in ex urna. Nulla elementum turpis dui, quis dictum est aliquet dignissim. Duis porta sagittis porta. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nunc imperdiet lectus ut est tincidunt sollicitudin. Morbi vel lacus sed dolor vulputate finibus. Integer in luctus est, vitae blandit tellus. Fusce suscipit sollicitudin erat nec condimentum. Duis sed porttitor magna, a faucibus orci. Donec tempus massa mi, tristique dictum diam auctor quis. Proin diam sem, faucibus sit amet pretium a, posuere ac purus.
+
+Fusce quis faucibus enim. Maecenas mattis elit eget sollicitudin eleifend. Aliquam non nisl aliquet, eleifend tortor non, commodo quam. Aenean eget ex non urna scelerisque pretium. Mauris tempus molestie porta. Mauris eget pretium nulla, rhoncus pharetra mi. Integer sed orci consequat libero sagittis placerat faucibus condimentum felis. Integer fringilla varius pharetra. Aenean magna nunc, semper a urna iaculis, vestibulum pharetra tortor."
+            android:scrollbars="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

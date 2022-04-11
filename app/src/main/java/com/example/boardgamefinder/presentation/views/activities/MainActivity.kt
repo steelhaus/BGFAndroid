@@ -2,23 +2,24 @@ package com.example.boardgamefinder.presentation.views.activities
 
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.boardgamefinder.R
 import com.example.boardgamefinder.core.MySettings
+import com.example.boardgamefinder.databinding.ActivityLogInBinding
 import com.example.boardgamefinder.databinding.ActivityMainBinding
-import com.example.boardgamefinder.presentation.views.fragments.HomeFragment
-import com.example.boardgamefinder.presentation.views.fragments.NewEventFragment
-import com.example.boardgamefinder.presentation.views.fragments.NotificationsFragment
-import com.example.boardgamefinder.presentation.views.fragments.ProfileFragment
-import com.example.boardgamefinder.presentation.views.fragments.SearchFragment
+import com.example.boardgamefinder.presentation.views.fragments.*
 
 /**
  * Activity for holding all app tabs
  */
 internal class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+    private var _binding: ActivityMainBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var mSettings: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +27,7 @@ internal class MainActivity : AppCompatActivity() {
 
         checkForAuth()
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         replaceFragment(HomeFragment())
@@ -43,9 +44,9 @@ internal class MainActivity : AppCompatActivity() {
                 R.id.nav_add -> {
                     replaceFragment(NewEventFragment())
                 }
-                R.id.nav_notifications -> {
+                /*R.id.nav_notifications -> {
                     replaceFragment(NotificationsFragment())
-                }
+                }*/
                 R.id.nav_profile -> {
                     replaceFragment(ProfileFragment())
                 }
@@ -75,11 +76,34 @@ internal class MainActivity : AppCompatActivity() {
         mSettings = getSharedPreferences(MySettings.APP_PREFERENCES, MODE_PRIVATE)
 
         // not logged in
-        if (!mSettings.getBoolean(MySettings.APP_PREFERENCES_LOGGED_IN, false)) {
+        if (!mSettings.getBoolean(MySettings.APP_PREFERENCES_LOGGED_IN, false) || mSettings.getString(MySettings.APP_PREFERENCES_TOKEN, "")?.isEmpty() == true) {
             val intent = Intent(this, WelcomeActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
             finish()
         }
+    }
+
+    /**
+     * when user agrees the permission
+     */
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String?>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == SearchFragment.LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED)
+                Toast.makeText(this, "Need location permission", Toast.LENGTH_SHORT).show()
+            else
+                (supportFragmentManager.findFragmentById(R.id.main_frame) as SearchFragment).locationGranted()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

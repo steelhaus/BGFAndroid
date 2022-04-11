@@ -16,6 +16,7 @@ import com.example.boardgamefinder.databinding.FragmentProfileBinding
 import com.example.boardgamefinder.domain.models.Event
 import com.example.boardgamefinder.presentation.adapters.EventAdapter
 import com.example.boardgamefinder.presentation.viewModels.HomeViewModel
+import com.example.boardgamefinder.presentation.views.activities.MainActivity
 
 /**
  * Fragment for event feed tab
@@ -41,7 +42,9 @@ internal class HomeFragment : Fragment() {
         binding.recycler.layoutManager = LinearLayoutManager(context)
 
         homeViewModel.events.observe(viewLifecycleOwner) {
-            adapter = EventAdapter(homeViewModel.events.value ?: listOf())
+            adapter = EventAdapter(homeViewModel.events.value ?: listOf()){
+                (activity as MainActivity).replaceFragment(EventDetailsFragment(it))
+            }
             binding.recycler.adapter = adapter
         }
     }
