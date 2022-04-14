@@ -12,7 +12,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.boardgamefinder.R
 import com.example.boardgamefinder.domain.models.User
 
-class MembersAdapter(private val items: List<User>) : RecyclerView.Adapter<MembersAdapter.MemberViewHolder>(){
+internal class MembersAdapter(private val items: List<User>) : RecyclerView.Adapter<MembersAdapter.MemberViewHolder>(){
     private var context: Context? = null
 
     override fun getItemViewType(position: Int): Int {

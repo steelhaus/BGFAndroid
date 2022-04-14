@@ -42,10 +42,14 @@ internal class HomeFragment : Fragment() {
         binding.recycler.layoutManager = LinearLayoutManager(context)
 
         homeViewModel.events.observe(viewLifecycleOwner) {
-            adapter = EventAdapter(homeViewModel.events.value ?: listOf()){
-                (activity as MainActivity).replaceFragment(EventDetailsFragment(it))
+            adapter = EventAdapter(it ?: listOf(), homeViewModel){event ->
+                (activity as MainActivity).replaceFragment(EventDetailsFragment(event))
             }
             binding.recycler.adapter = adapter
+        }
+
+        homeViewModel.updateRecycler.observe(viewLifecycleOwner){
+            binding.recycler.adapter?.notifyItemChanged(it)
         }
     }
 

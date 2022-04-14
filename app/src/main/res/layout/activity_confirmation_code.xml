@@ -97,7 +97,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline6" />
 
     <ImageButton
-        android:padding="10dp"
+        android:padding="12dp"
         android:contentDescription="@string/back_icon"
         android:id="@+id/backButton"
         android:layout_width="0dp"

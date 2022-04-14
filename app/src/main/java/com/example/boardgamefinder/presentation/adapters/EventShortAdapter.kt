@@ -1,13 +1,11 @@
 package com.example.boardgamefinder.presentation.adapters
 
 import android.content.Context
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -16,10 +14,8 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.boardgamefinder.R
 import com.example.boardgamefinder.domain.models.Event
-import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
 
-class EventShortAdapter(private val items: List<Event>, private val openEvent: (Event) -> Unit) : RecyclerView.Adapter<EventShortAdapter.EventViewHolder>(){
+internal class EventShortAdapter(private val items: List<Event>, private val openEvent: (Event) -> Unit) : RecyclerView.Adapter<EventShortAdapter.EventViewHolder>(){
     private var context: Context? = null
 
     override fun getItemViewType(position: Int): Int {
@@ -48,7 +44,7 @@ class EventShortAdapter(private val items: List<Event>, private val openEvent: (
             holder.username.text = creator.username
             //holder.date.text = date
             holder.eventName.text = title
-            holder.place.text = locationShort
+            holder.place.text = location
         }
 
         // set event image

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -14,6 +15,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.boardgamefinder.R
 import com.example.boardgamefinder.databinding.FragmentEventDetailsBinding
 import com.example.boardgamefinder.domain.models.Event
+import com.example.boardgamefinder.presentation.viewModels.EventDetailsViewModel
 import com.example.boardgamefinder.presentation.views.activities.MainActivity
 import com.google.android.material.chip.Chip
 
@@ -22,6 +24,7 @@ class EventDetailsFragment(val event: Event) : Fragment() {
 
     private var _binding: FragmentEventDetailsBinding? = null
     private val binding get() = _binding!!
+    private val eventDetailsViewModel: EventDetailsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,7 +39,7 @@ class EventDetailsFragment(val event: Event) : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.title.text = event.title
-        binding.location.text = event.locationShort
+        binding.location.text = event.location
         binding.date.text = event.date
         //ToDo binding.description.text = event
 
@@ -50,12 +53,18 @@ class EventDetailsFragment(val event: Event) : Fragment() {
             .into(binding.imageView)
 
         // set subscription button state
-        if(event.subscriptionStatus != Event.SubscriptionStatus.NOT_SUBMITTED){
-            //ToDo to resources
-            binding.joinButton.text = "LEAVE"
+        setJoinButton()
 
-            //ToDo binding.joinButton.style(R.style.Widget_BoardGameFinder_Button_SmallOutlinedButtonOnPrimary)
-            //Paris.style(binding.joinButton).apply(R.style.Widget_BoardGameFinder_Button_SmallOutlinedButtonOnPrimary);
+        binding.joinButton.setOnClickListener {
+            if(event.subscriptionStatus == Event.SubscriptionStatus.NOT_SUBMITTED)
+                eventDetailsViewModel.joinEvent(event.id)
+            else
+                eventDetailsViewModel.leaveEvent(event.id)
+        }
+
+        eventDetailsViewModel.subscriptionStatus.observe(viewLifecycleOwner){
+            event.subscriptionStatus = it
+            setJoinButton()
         }
 
         // set description scrollable
@@ -74,10 +83,23 @@ class EventDetailsFragment(val event: Event) : Fragment() {
         binding.membersButton.setOnClickListener {
             (activity as MainActivity).replaceFragment(EventMembersFragment(event))
         }
+
     }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    private fun setJoinButton(){
+        if(event.subscriptionStatus == Event.SubscriptionStatus.NOT_SUBMITTED){
+            //ToDo to resources
+            binding.joinButton.text = "JOIN"
+
+            //ToDo binding.joinButton.style(R.style.Widget_BoardGameFinder_Button_SmallOutlinedButtonOnPrimary)
+            //Paris.style(binding.joinButton).apply(R.style.Widget_BoardGameFinder_Button_SmallOutlinedButtonOnPrimary);
+        }else{
+            binding.joinButton.text = "LEAVE"
+        }
     }
 }

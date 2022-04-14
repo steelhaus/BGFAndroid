@@ -1,7 +1,6 @@
 package com.example.boardgamefinder.presentation.adapters
 
 import android.content.Context
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,13 +16,11 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.boardgamefinder.R
 import com.example.boardgamefinder.core.MySettings
 import com.example.boardgamefinder.domain.models.Event
-import com.example.boardgamefinder.presentation.views.activities.MainActivity
-import com.example.boardgamefinder.presentation.views.fragments.EventDetailsFragment
-import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.example.boardgamefinder.presentation.viewModels.HomeViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 
-class EventAdapter(private val items: List<Event>, private val openEvent: (Event) -> Unit) : RecyclerView.Adapter<EventAdapter.EventViewHolder>(){
+internal class EventAdapter(private val items: List<Event>, private val viewModel: HomeViewModel, private val openEvent: (Event) -> Unit) : RecyclerView.Adapter<EventAdapter.EventViewHolder>(){
     private var context: Context? = null
 
     override fun getItemViewType(position: Int): Int {
@@ -53,7 +50,7 @@ class EventAdapter(private val items: List<Event>, private val openEvent: (Event
             holder.date.text = date
             holder.eventName.text = title
             holder.likes.text = likes.toString()
-            holder.place.text = locationShort
+            holder.place.text = location
             val members = "$visitorsCount/$visitorsLimit"
             holder.members.text = members
         }
@@ -67,6 +64,13 @@ class EventAdapter(private val items: List<Event>, private val openEvent: (Event
                 setImageResource(R.drawable.ic_like_outlined)
                 setColorFilter(ContextCompat.getColor(context!!, R.color.dark_gray))
             }
+        }
+
+        holder.likeButton.setOnClickListener {
+            if(!items[position].liked)
+                viewModel.setLike(position)
+            else
+                viewModel.removeLike(position)
         }
 
         // setting join button into correct state
@@ -85,6 +89,13 @@ class EventAdapter(private val items: List<Event>, private val openEvent: (Event
                     setTextColor(ContextCompat.getColor(context!!, R.color.dark_gray))
                 }
             }
+        }
+
+        holder.joinButton.setOnClickListener {
+            if(items[position].subscriptionStatus == Event.SubscriptionStatus.NOT_SUBMITTED)
+                viewModel.joinEvent(position)
+            else
+                viewModel.leaveEvent(position)
         }
 
         items[position].tags?.let { tags ->

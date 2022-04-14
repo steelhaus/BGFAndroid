@@ -12,7 +12,9 @@ import retrofit2.http.*
  */
 internal interface BoardGameFinderApi {
     @GET("events")
-    suspend fun getEvents(): Response<GenericResponse<List<Event>>>
+    suspend fun getEvents(
+        @Header ("jwt") jwt: String,
+    ): Response<GenericResponse<List<Event>>>
 
     @POST("profile")
     suspend fun register(
@@ -30,7 +32,7 @@ internal interface BoardGameFinderApi {
         @Body userCredentials: UserCredentialsRequest
     ): Response<GenericResponse<Tokens>>
 
-    @DELETE("auth/sign-in")
+    @DELETE("auth/sign-out")
     suspend fun logOut(
         @Header ("jwt") jwt: String
     ): Response<GenericResponse<Boolean>>
@@ -43,4 +45,28 @@ internal interface BoardGameFinderApi {
 
     @GET("events/members")
     suspend fun getEventMembers(): Response<GenericResponse<List<User>>>
+
+    @POST("events/likes")
+    suspend fun setLike(
+        @Header ("jwt") jwt: String,
+        @Query("eventId") id: Int
+    ): Response<GenericResponse<Unit>>
+
+    @DELETE("events/likes")
+    suspend fun removeLike(
+        @Header ("jwt") jwt: String,
+        @Query("eventId") id: Int
+    ): Response<GenericResponse<Unit>>
+
+    @POST("events/participate")
+    suspend fun joinEvent(
+        @Header ("jwt") jwt: String,
+        @Query("eventId") id: Int
+    ): Response<GenericResponse<Event.SubscriptionStatus>>
+
+    @DELETE("events/participate")
+    suspend fun leaveEvent(
+        @Header ("jwt") jwt: String,
+        @Query("eventId") id: Int
+    ): Response<GenericResponse<Unit>>
 }

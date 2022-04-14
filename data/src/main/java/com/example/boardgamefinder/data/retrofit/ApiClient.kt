@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
  * Client for network
  */
 internal object ApiClient {
-    private const val BASE_URL = "https://bgf.ij.je/"
+    private const val BASE_URL = "https://bgf.yar.cx/"
     private const val VERSION = "v1.0/"
 
     val instance: BoardGameFinderApi by lazy{

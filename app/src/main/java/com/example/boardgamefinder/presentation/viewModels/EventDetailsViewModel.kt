@@ -13,35 +13,51 @@ import com.example.boardgamefinder.core.MySettings
 import com.example.boardgamefinder.core.toMessage
 import com.example.boardgamefinder.data.retrofit.UserRepository
 import com.example.boardgamefinder.domain.models.Event
-import com.example.boardgamefinder.domain.usecase.GetEventsUseCase
+import com.example.boardgamefinder.domain.usecase.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-internal class MyEventsViewModel(app: Application) : AndroidViewModel(app) {
+internal class EventDetailsViewModel(app: Application) : AndroidViewModel(app) {
 
-    private val _events = MutableLiveData<List<Event>>()
-    val events: LiveData<List<Event>> = _events
+    private val _subscriptionStatus = MutableLiveData<Event.SubscriptionStatus>()
+    val subscriptionStatus: LiveData<Event.SubscriptionStatus> = _subscriptionStatus
 
     private lateinit var mSettings: SharedPreferences
 
-    init {
-        getEvents()
-    }
+    fun joinEvent(eventId: Int){
 
-    fun getEvents(){
-        val useCase = GetEventsUseCase(UserRepository())
+        val useCase = JoinEventUseCase(UserRepository())
 
         mSettings = (getApplication() as Context).getSharedPreferences(MySettings.APP_PREFERENCES, AppCompatActivity.MODE_PRIVATE)
 
         val jwt = mSettings.getString(MySettings.APP_PREFERENCES_TOKEN, "") ?: ""
 
         viewModelScope.launch {
-            val result = useCase.execute(jwt)
+            val result = useCase.execute(jwt, eventId)
 
             withContext(Dispatchers.Main) {
                 if (result.isSuccess)
-                    _events.value = result.getOrNull()
+                    _subscriptionStatus.value = result.getOrNull()!!
+                else if(result.exceptionOrNull() != null)
+                    Toast.makeText(getApplication(), (result.exceptionOrNull() as Exception).toMessage(getApplication()), Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    fun leaveEvent(eventId: Int){
+        val useCase = LeaveEventUseCase(UserRepository())
+
+        mSettings = (getApplication() as Context).getSharedPreferences(MySettings.APP_PREFERENCES, AppCompatActivity.MODE_PRIVATE)
+
+        val jwt = mSettings.getString(MySettings.APP_PREFERENCES_TOKEN, "") ?: ""
+
+        viewModelScope.launch {
+            val result = useCase.execute(jwt, eventId)
+
+            withContext(Dispatchers.Main) {
+                if (result.isSuccess)
+                    _subscriptionStatus.value = Event.SubscriptionStatus.NOT_SUBMITTED
                 else if(result.exceptionOrNull() != null)
                     Toast.makeText(getApplication(), (result.exceptionOrNull() as Exception).toMessage(getApplication()), Toast.LENGTH_LONG).show()
             }
