@@ -55,6 +55,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageButton
+            android:id="@+id/logoutButton"
+            android:layout_marginStart="-18dp"
+            android:layout_marginTop="-18dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:contentDescription="@string/back_icon"
+            android:padding="18dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_logout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guidelineEnd"
+            app:layout_constraintTop_toTopOf="@+id/guidelineColorContent" />
+
         <ImageView
             android:id="@+id/profilePicture"
             android:background="@color/white"
@@ -77,12 +93,6 @@
             app:layout_constraintTop_toTopOf="@+id/guidelineColorContent">
 
             <TextView
-                android:id="@+id/rating"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="rating" />
-
-            <TextView
                 android:id="@+id/name"
                 style="@style/TextAppearance.MaterialComponents.Headline6"
                 android:layout_width="match_parent"
@@ -101,26 +111,27 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearLayout4"
             android:layout_width="0dp"
-            android:layout_marginStart="15dp"
             android:layout_height="0dp"
+            android:layout_marginStart="15dp"
+            android:gravity="bottom"
             android:orientation="horizontal"
             android:weightSum="100"
             app:layout_constraintBottom_toTopOf="@+id/guidelineImageBottom"
             app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
             app:layout_constraintStart_toEndOf="@+id/profilePicture"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-            android:gravity="bottom">
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
             <com.google.android.material.button.MaterialButton
-                android:visibility="gone"
                 android:id="@+id/followButton"
                 style="@style/Widget.BoardGameFinder.Button.SmallButtonOnPrimary"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:layout_weight="50"
-                android:text="@string/follow" />
+                android:text="@string/follow"
+                android:visibility="gone" />
 
         </LinearLayout>
 

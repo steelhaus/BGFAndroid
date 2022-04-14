@@ -8,14 +8,14 @@ data class Event(
     val imageUrl: String?,
     val date: String,
     val tags: List<Tag>?,
-    val locationShort: String,
+    val location: String,
     val visitorsCount: Int,
     val visitorsLimit: Int,
     val distance: Int,
     val creator: User,
-    val likes: Int,
-    val liked: Boolean,
-    val subscriptionStatus: SubscriptionStatus,
+    var likes: Int,
+    var liked: Boolean,
+    var subscriptionStatus: SubscriptionStatus,
     val latitude: Double,
     val longitude: Double
 )

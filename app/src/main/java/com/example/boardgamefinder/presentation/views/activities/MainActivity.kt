@@ -106,4 +106,11 @@ internal class MainActivity : AppCompatActivity() {
         super.onDestroy()
         _binding = null
     }
+
+    fun openLogIntActivity(){
+        val intent = Intent(this, LogInActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+        finish()
+    }
 }

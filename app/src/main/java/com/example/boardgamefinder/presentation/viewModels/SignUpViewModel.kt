@@ -16,7 +16,7 @@ import com.example.boardgamefinder.data.retrofit.UserRepository
 import com.example.boardgamefinder.domain.models.Email
 import com.example.boardgamefinder.domain.models.Password
 import com.example.boardgamefinder.domain.models.UserCredentials
-import com.example.boardgamefinder.domain.usecase.RegisterUseCase
+import com.example.boardgamefinder.domain.usecase.SignUpUseCase
 import com.example.boardgamefinder.utils.CredentialsValidatorImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,7 +28,7 @@ internal class SignUpViewModel(app: Application) : AndroidViewModel(app) {
     val success: LiveData<Boolean> = _success
 
     fun register(email: Email, password: Password, confirmPassword: Password){
-        val useCase = RegisterUseCase(UserRepository(), CredentialsValidatorImpl)
+        val useCase = SignUpUseCase(UserRepository(), CredentialsValidatorImpl)
         viewModelScope.launch {
             val result = useCase.execute(UserCredentials(email, password, confirmPassword))
 

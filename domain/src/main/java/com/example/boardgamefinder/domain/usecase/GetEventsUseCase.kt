@@ -6,7 +6,7 @@ import com.example.boardgamefinder.domain.repository.UserRepository
 class GetEventsUseCase(
     private val userRepository: UserRepository
 ) {
-    suspend fun execute(): Result<List<Event>> {
-        return userRepository.getEvents()
+    suspend fun execute(jwt: String): Result<List<Event>> {
+        return userRepository.getEvents(jwt)
     }
 }

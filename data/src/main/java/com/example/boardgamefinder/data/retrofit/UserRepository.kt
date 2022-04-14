@@ -61,6 +61,28 @@ class UserRepository : UserRepository {
         return result!!
     }
 
+    override suspend fun logOut(jwt: String): Result<Boolean> {
+        var result: Result<Boolean>?
+
+        withContext(Dispatchers.IO) {
+            val response: Response<GenericResponse<Boolean>>
+
+            try {
+                response = ApiClient.instance.logOut(jwt)
+            } catch (e: Exception) {
+                result = Result.failure(DataException.InternetException())
+                return@withContext
+            }
+
+            result = if(!response.isSuccessful || !response.body()!!.success)
+                Result.failure(DataException.responseCodeToException(response.code()))
+            else
+                Result.success(response.body()!!.result)
+        }
+
+        return result!!
+    }
+
     override suspend fun confirmCode(code: String, jwt: String): Result<Tokens>{
         var result: Result<Tokens>?
 
@@ -83,14 +105,14 @@ class UserRepository : UserRepository {
         return result!!
     }
 
-    override suspend fun getEvents(): Result<List<Event>> {
+    override suspend fun getEvents(jwt: String): Result<List<Event>> {
         var result: Result<List<Event>>?
 
         withContext(Dispatchers.IO) {
             val response: Response<GenericResponse<List<Event>>>
 
             try {
-                response = ApiClient.instance.getEvents()
+                response = ApiClient.instance.getEvents(jwt)
             } catch (e: Exception) {
                 result = Result.failure(DataException.InternetException())
                 return@withContext
@@ -136,6 +158,94 @@ class UserRepository : UserRepository {
 
             try {
                 response = ApiClient.instance.getEventMembers()
+            } catch (e: Exception) {
+                result = Result.failure(DataException.InternetException())
+                return@withContext
+            }
+
+            result = if(!response.isSuccessful || !response.body()!!.success)
+                Result.failure(DataException.responseCodeToException(response.code()))
+            else
+                Result.success(response.body()!!.result)
+        }
+
+        return result!!
+    }
+
+    override suspend fun setLike(jwt: String, eventId: Int): Result<Unit> {
+        var result: Result<Unit>?
+
+        withContext(Dispatchers.IO) {
+            val response: Response<GenericResponse<Unit>>
+
+            try {
+                response = ApiClient.instance.setLike(jwt, eventId)
+            } catch (e: Exception) {
+                result = Result.failure(DataException.InternetException())
+                return@withContext
+            }
+
+            result = if(!response.isSuccessful || !response.body()!!.success)
+                Result.failure(DataException.responseCodeToException(response.code()))
+            else
+                Result.success(response.body()!!.result)
+        }
+
+        return result!!
+    }
+
+    override suspend fun removeLike(jwt: String, eventId: Int): Result<Unit> {
+        var result: Result<Unit>?
+
+        withContext(Dispatchers.IO) {
+            val response: Response<GenericResponse<Unit>>
+
+            try {
+                response = ApiClient.instance.removeLike(jwt, eventId)
+            } catch (e: Exception) {
+                result = Result.failure(DataException.InternetException())
+                return@withContext
+            }
+
+            result = if(!response.isSuccessful || !response.body()!!.success)
+                Result.failure(DataException.responseCodeToException(response.code()))
+            else
+                Result.success(response.body()!!.result)
+        }
+
+        return result!!
+    }
+
+    override suspend fun joinEvent(jwt: String, eventId: Int): Result<Event.SubscriptionStatus> {
+        var result: Result<Event.SubscriptionStatus>?
+
+        withContext(Dispatchers.IO) {
+            val response: Response<GenericResponse<Event.SubscriptionStatus>>
+
+            try {
+                response = ApiClient.instance.joinEvent(jwt, eventId)
+            } catch (e: Exception) {
+                result = Result.failure(DataException.InternetException())
+                return@withContext
+            }
+
+            result = if(!response.isSuccessful || !response.body()!!.success)
+                Result.failure(DataException.responseCodeToException(response.code()))
+            else
+                Result.success(response.body()!!.result)
+        }
+
+        return result!!
+    }
+
+    override suspend fun leaveEvent(jwt: String, eventId: Int): Result<Unit> {
+        var result: Result<Unit>?
+
+        withContext(Dispatchers.IO) {
+            val response: Response<GenericResponse<Unit>>
+
+            try {
+                response = ApiClient.instance.leaveEvent(jwt, eventId)
             } catch (e: Exception) {
                 result = Result.failure(DataException.InternetException())
                 return@withContext

@@ -9,6 +9,7 @@ import com.example.boardgamefinder.domain.utils.CredentialsValidator
  * A class for storing and validating user credentials
  */
 data class UserCredentials(val email: Email, val password: Password, val passwordConf: Password) {
+    //ToDo move to usecase
     fun validate(credentialsValidator: CredentialsValidator): Result<String> {
         if(password != passwordConf)
             return Result.failure(PasswordMatchException())

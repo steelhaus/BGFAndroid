@@ -9,7 +9,7 @@ import com.example.boardgamefinder.domain.utils.CredentialsValidator
  *
  * @property userRepository repository to send user credentials
  */
-class RegisterUseCase(
+class SignUpUseCase(
     private val userRepository: UserRepository,
     private val credentialsValidator: CredentialsValidator
 ) {

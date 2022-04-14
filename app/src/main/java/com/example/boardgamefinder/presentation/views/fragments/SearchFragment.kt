@@ -2,17 +2,14 @@ package com.example.boardgamefinder.presentation.views.fragments
 
 import android.Manifest
 import android.app.AlertDialog
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.drawable.Drawable
 import android.location.Geocoder
 import android.location.LocationManager
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,19 +23,13 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.Target
 import com.example.boardgamefinder.R
 import com.example.boardgamefinder.core.EventClusteringItem
-import com.example.boardgamefinder.core.OwnIconRendered
+import com.example.boardgamefinder.core.MyIconRendered
 import com.example.boardgamefinder.databinding.FragmentSearchBinding
 import com.example.boardgamefinder.domain.models.Event
 import com.example.boardgamefinder.presentation.viewModels.SearchViewModel
@@ -72,6 +63,7 @@ internal class SearchFragment : Fragment() {
         private const val GPS_REQUEST_CODE = 2
     }
 
+    //ToDo onviewcreated
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -103,7 +95,7 @@ internal class SearchFragment : Fragment() {
             clusterManager = ClusterManager<EventClusteringItem>(activity, map)
 
             // min cluster size
-            val clusterRenderer = OwnIconRendered(requireActivity(), map, clusterManager)
+            val clusterRenderer = MyIconRendered(requireActivity(), map, clusterManager)
             clusterRenderer.minClusterSize = 2
 
             // set renderer
@@ -240,7 +232,7 @@ internal class SearchFragment : Fragment() {
                     it[i].latitude,
                     it[i].longitude,
                     it[i].title,
-                    it[i].locationShort,
+                    it[i].location,
                     EventClusteringItem.MarkerType.EVENT,
                     resources.getDrawable(R.drawable.ic_marker_dice),
                     i
@@ -274,7 +266,7 @@ internal class SearchFragment : Fragment() {
         val openButton: Button = eventBottomSheetLayout!!.findViewById(R.id.openButton)
 
         title.text = event.title
-        location.text = event.locationShort
+        location.text = event.location
         date.text = event.date
 
         // set image
