@@ -35,11 +35,15 @@ class MyEventsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.backButton.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+
         binding.recycler.layoutManager = LinearLayoutManager(context)
 
         myEventsViewModel.events.observe(viewLifecycleOwner) {
             adapter = EventShortAdapter(myEventsViewModel.events.value ?: listOf()){
-                (activity as MainActivity).replaceFragment(EventDetailsFragment(it))
+                (activity as MainActivity).replaceFragment(EventDetailsFragment(it.id))
             }
             binding.recycler.adapter = adapter
         }

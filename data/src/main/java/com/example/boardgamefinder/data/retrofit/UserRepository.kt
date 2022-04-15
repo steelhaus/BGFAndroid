@@ -1,6 +1,7 @@
 package com.example.boardgamefinder.data.retrofit
 
 import com.example.boardgamefinder.data.retrofit.models.CodeRequest
+import com.example.boardgamefinder.data.retrofit.models.EmailRequest
 import com.example.boardgamefinder.data.retrofit.models.GenericResponse
 import com.example.boardgamefinder.data.retrofit.models.UserCredentialsRequest
 import com.example.boardgamefinder.domain.models.*
@@ -150,14 +151,14 @@ class UserRepository : UserRepository {
         return result!!
     }
 
-    override suspend fun getEventMembers(eventId: Int): Result<List<User>> {
+    override suspend fun getEventVisitors(jwt: String, eventId: Int): Result<List<User>> {
         var result: Result<List<User>>?
 
         withContext(Dispatchers.IO) {
             val response: Response<GenericResponse<List<User>>>
 
             try {
-                response = ApiClient.instance.getEventMembers()
+                response = ApiClient.instance.getEventVisitors(jwt, eventId)
             } catch (e: Exception) {
                 result = Result.failure(DataException.InternetException())
                 return@withContext
@@ -246,6 +247,160 @@ class UserRepository : UserRepository {
 
             try {
                 response = ApiClient.instance.leaveEvent(jwt, eventId)
+            } catch (e: Exception) {
+                result = Result.failure(DataException.InternetException())
+                return@withContext
+            }
+
+            result = if(!response.isSuccessful || !response.body()!!.success)
+                Result.failure(DataException.responseCodeToException(response.code()))
+            else
+                Result.success(response.body()!!.result)
+        }
+
+        return result!!
+    }
+
+    override suspend fun getEvent(jwt: String, eventId: Int): Result<Event> {
+        var result: Result<Event>?
+
+        withContext(Dispatchers.IO) {
+            val response: Response<GenericResponse<Event>>
+
+            try {
+                response = ApiClient.instance.getEvent(jwt, eventId)
+            } catch (e: Exception) {
+                result = Result.failure(DataException.InternetException())
+                return@withContext
+            }
+
+            result = if(!response.isSuccessful || !response.body()!!.success)
+                Result.failure(DataException.responseCodeToException(response.code()))
+            else
+                Result.success(response.body()!!.result)
+        }
+
+        return result!!
+    }
+
+    override suspend fun recoverPassword(email: String): Result<Boolean> {
+        var result: Result<Boolean>?
+
+        withContext(Dispatchers.IO) {
+            val response: Response<GenericResponse<Boolean>>
+
+            try {
+                response = ApiClient.instance.recoverPassword(EmailRequest(email))
+            } catch (e: Exception) {
+                result = Result.failure(DataException.InternetException())
+                return@withContext
+            }
+
+            result = if(!response.isSuccessful || !response.body()!!.success)
+                Result.failure(DataException.responseCodeToException(response.code()))
+            else
+                Result.success(response.body()!!.result)
+        }
+
+        return result!!
+    }
+
+    override suspend fun getProfile(jwt: String) : Result<User> {
+        var result: Result<User>?
+
+        withContext(Dispatchers.IO) {
+            val response: Response<GenericResponse<User>>
+
+            try {
+                response = ApiClient.instance.getProfile(jwt)
+            } catch (e: Exception) {
+                result = Result.failure(DataException.InternetException())
+                return@withContext
+            }
+
+            result = if(!response.isSuccessful || !response.body()!!.success)
+                Result.failure(DataException.responseCodeToException(response.code()))
+            else
+                Result.success(response.body()!!.result)
+        }
+
+        return result!!
+    }
+
+    override suspend fun getProfile(jwt: String, userId: Int) : Result<User> {
+        var result: Result<User>?
+
+        withContext(Dispatchers.IO) {
+            val response: Response<GenericResponse<User>>
+
+            try {
+                response = ApiClient.instance.getProfile(jwt, userId)
+            } catch (e: Exception) {
+                result = Result.failure(DataException.InternetException())
+                return@withContext
+            }
+
+            result = if(!response.isSuccessful || !response.body()!!.success)
+                Result.failure(DataException.responseCodeToException(response.code()))
+            else
+                Result.success(response.body()!!.result)
+        }
+
+        return result!!
+    }
+
+    override suspend fun subscribe(jwt: String, userId: Int) : Result<Boolean> {
+        var result: Result<Boolean>?
+
+        withContext(Dispatchers.IO) {
+            val response: Response<GenericResponse<Boolean>>
+
+            try {
+                response = ApiClient.instance.subscribe(jwt, userId)
+            } catch (e: Exception) {
+                result = Result.failure(DataException.InternetException())
+                return@withContext
+            }
+
+            result = if(!response.isSuccessful || !response.body()!!.success)
+                Result.failure(DataException.responseCodeToException(response.code()))
+            else
+                Result.success(response.body()!!.result)
+        }
+
+        return result!!
+    }
+
+    override suspend fun unsubscribe(jwt: String, userId: Int) : Result<Boolean> {
+        var result: Result<Boolean>?
+
+        withContext(Dispatchers.IO) {
+            val response: Response<GenericResponse<Boolean>>
+
+            try {
+                response = ApiClient.instance.unsubscribe(jwt, userId)
+            } catch (e: Exception) {
+                result = Result.failure(DataException.InternetException())
+                return@withContext
+            }
+
+            result = if(!response.isSuccessful || !response.body()!!.success)
+                Result.failure(DataException.responseCodeToException(response.code()))
+            else
+                Result.success(response.body()!!.result)
+        }
+
+        return result!!
+    }
+
+    override suspend fun getMyCreatedEvents(jwt: String): Result<List<Event>> {
+        var result: Result<List<Event>>?
+
+        withContext(Dispatchers.IO) {
+            val response: Response<GenericResponse<List<Event>>>
+
+            try {
+                response = ApiClient.instance.getMyCreatedEvents(jwt)
             } catch (e: Exception) {
                 result = Result.failure(DataException.InternetException())
                 return@withContext

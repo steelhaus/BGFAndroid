@@ -22,6 +22,11 @@ internal class LogInActivity : AppCompatActivity() {
         _binding = ActivityLogInBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.textForgotPassword.setOnClickListener {
+            val intent = Intent(this, PasswordRecoveryActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.signupButton.setOnClickListener {openActivity(SignUpActivity::class.java)}
 
         binding.loginButton.setOnClickListener { logInViewModel.login(

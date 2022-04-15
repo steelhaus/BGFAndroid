@@ -14,6 +14,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.boardgamefinder.R
 import com.example.boardgamefinder.domain.models.Event
+import java.text.SimpleDateFormat
 
 internal class EventShortAdapter(private val items: List<Event>, private val openEvent: (Event) -> Unit) : RecyclerView.Adapter<EventShortAdapter.EventViewHolder>(){
     private var context: Context? = null
@@ -40,9 +41,13 @@ internal class EventShortAdapter(private val items: List<Event>, private val ope
         holder: EventViewHolder,
         position: Int
     ) {
+        val dateFormatter = SimpleDateFormat("yyyy-MM-dd")
+        val timeFormatter = SimpleDateFormat("HH:mm")
+
         with(items[position]){
             holder.username.text = creator.username
-            //holder.date.text = date
+            holder.date.text = dateFormatter.format(eventDate.time)
+            holder.time.text = timeFormatter.format(eventDate.time)
             holder.eventName.text = title
             holder.place.text = location
         }

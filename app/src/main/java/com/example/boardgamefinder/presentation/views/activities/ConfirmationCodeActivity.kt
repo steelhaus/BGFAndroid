@@ -31,6 +31,10 @@ internal class ConfirmationCodeActivity : AppCompatActivity() {
 
         setInputCode()
 
+        binding.backButton.setOnClickListener {
+            onBackPressed()
+        }
+
         // resend button states
         confirmationCodeViewModel.resend.observe(this){
             if(confirmationCodeViewModel.resend.value == true) {

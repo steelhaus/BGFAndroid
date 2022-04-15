@@ -5,14 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.boardgamefinder.R
+import com.example.boardgamefinder.domain.models.Event
 import com.example.boardgamefinder.domain.models.User
 
-internal class MembersAdapter(private val items: List<User>) : RecyclerView.Adapter<MembersAdapter.MemberViewHolder>(){
+internal class MembersAdapter(private val items: List<User>, private val openUser: (Int) -> Unit) : RecyclerView.Adapter<MembersAdapter.MemberViewHolder>(){
     private var context: Context? = null
 
     override fun getItemViewType(position: Int): Int {
@@ -42,6 +44,10 @@ internal class MembersAdapter(private val items: List<User>) : RecyclerView.Adap
 
         holder.username.text = items[position].username
 
+        holder.card.setOnClickListener {
+            openUser(items[position].id)
+        }
+
         context?.let{
             Glide.with(it)
                 .load(items[position].imageUrl)
@@ -57,5 +63,7 @@ internal class MembersAdapter(private val items: List<User>) : RecyclerView.Adap
         val username: TextView = itemView.findViewById(R.id.username)
         val status: TextView = itemView.findViewById(R.id.status)
         val avatar: ImageView = itemView.findViewById(R.id.avatar)
+
+        val card: CardView = itemView.findViewById(R.id.user_card)
     }
 }

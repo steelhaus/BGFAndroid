@@ -61,12 +61,7 @@ internal class MainActivity : AppCompatActivity() {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
             .replace(R.id.main_frame, fragment)
 
-        if(fragment !is HomeFragment &&
-            fragment !is SearchFragment &&
-            fragment !is NewEventFragment &&
-            fragment !is NotificationsFragment &&
-            fragment !is ProfileFragment
-        )
+        if(fragment !is HomeFragment)
             fragmentTransaction.addToBackStack( "tag" )
 
         fragmentTransaction.commit()
