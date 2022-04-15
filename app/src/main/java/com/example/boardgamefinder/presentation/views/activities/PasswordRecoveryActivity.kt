@@ -23,6 +23,10 @@ internal class PasswordRecoveryActivity : AppCompatActivity() {
         _binding = ActivityPasswordRecoveryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.backButton.setOnClickListener {
+            onBackPressed()
+        }
+
         binding.send.setOnClickListener {
             if(binding.email.text?.isEmpty() == true)
                 // ToDo move to resources
