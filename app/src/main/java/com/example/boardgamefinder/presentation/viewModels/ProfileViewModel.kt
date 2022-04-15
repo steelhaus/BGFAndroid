@@ -12,8 +12,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.boardgamefinder.core.MySettings
 import com.example.boardgamefinder.core.toMessage
 import com.example.boardgamefinder.data.retrofit.UserRepository
-import com.example.boardgamefinder.domain.usecase.LogOutUseCase
-import com.example.boardgamefinder.domain.usecase.SetLikeUseCase
+import com.example.boardgamefinder.domain.models.User
+import com.example.boardgamefinder.domain.usecase.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -24,6 +24,12 @@ import kotlinx.coroutines.withContext
 internal class ProfileViewModel(app: Application) : AndroidViewModel(app) {
     private val _logOutSuccess = MutableLiveData<Boolean>()
     val logOutSuccess: LiveData<Boolean> = _logOutSuccess
+
+    private val _subscription = MutableLiveData<Boolean>()
+    val subscription: LiveData<Boolean> = _subscription
+
+    private val _user = MutableLiveData<User>()
+    val user: LiveData<User> = _user
 
     private lateinit var mSettings: SharedPreferences
 
@@ -40,6 +46,67 @@ internal class ProfileViewModel(app: Application) : AndroidViewModel(app) {
             withContext(Dispatchers.Main) {
                 if (result.isSuccess)
                     logOutSuccess()
+                else if(result.exceptionOrNull() != null)
+                    Toast.makeText(getApplication(), (result.exceptionOrNull() as Exception).toMessage(getApplication()), Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    fun getProfile(userId: Int){
+        val useCase = GetProfileUseCase(UserRepository())
+
+        mSettings = (getApplication() as Context).getSharedPreferences(MySettings.APP_PREFERENCES, AppCompatActivity.MODE_PRIVATE)
+
+        val jwt = mSettings.getString(MySettings.APP_PREFERENCES_TOKEN, "") ?: ""
+
+        viewModelScope.launch {
+            val result = useCase.execute(jwt, userId)
+
+            withContext(Dispatchers.Main) {
+                if (result.isSuccess)
+                    _user.value = result.getOrNull()
+                else if(result.exceptionOrNull() != null)
+                    Toast.makeText(getApplication(), (result.exceptionOrNull() as Exception).toMessage(getApplication()), Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    fun subscribe(userId: Int){
+        val useCase = SubscribeUseCase(UserRepository())
+
+        mSettings = (getApplication() as Context).getSharedPreferences(MySettings.APP_PREFERENCES, AppCompatActivity.MODE_PRIVATE)
+
+        val jwt = mSettings.getString(MySettings.APP_PREFERENCES_TOKEN, "") ?: ""
+
+        viewModelScope.launch {
+            val result = useCase.execute(jwt, userId)
+
+            withContext(Dispatchers.Main) {
+                if (result.isSuccess) {
+                    _user.value?.subscribersCount = _user.value?.subscribersCount!! + 1
+                    _subscription.value = true
+                }
+                else if(result.exceptionOrNull() != null)
+                    Toast.makeText(getApplication(), (result.exceptionOrNull() as Exception).toMessage(getApplication()), Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    fun unsubscribe(userId: Int){
+        val useCase = UnsubscribeUseCase(UserRepository())
+
+        mSettings = (getApplication() as Context).getSharedPreferences(MySettings.APP_PREFERENCES, AppCompatActivity.MODE_PRIVATE)
+
+        val jwt = mSettings.getString(MySettings.APP_PREFERENCES_TOKEN, "") ?: ""
+
+        viewModelScope.launch {
+            val result = useCase.execute(jwt, userId)
+
+            withContext(Dispatchers.Main) {
+                if (result.isSuccess) {
+                    _user.value?.subscribersCount = _user.value?.subscribersCount!! - 1
+                    _subscription.value = false
+                }
                 else if(result.exceptionOrNull() != null)
                     Toast.makeText(getApplication(), (result.exceptionOrNull() as Exception).toMessage(getApplication()), Toast.LENGTH_LONG).show()
             }

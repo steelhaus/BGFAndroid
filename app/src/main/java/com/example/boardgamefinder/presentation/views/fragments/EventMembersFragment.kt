@@ -37,6 +37,10 @@ class EventMembersFragment (val event: Event) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.backButton.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+
         binding.title.text = event.title
         val peopleLimit = event.visitorsCount.toString() + "/" + event.visitorsLimit
         binding.peopleLimit.text = peopleLimit
@@ -47,7 +51,9 @@ class EventMembersFragment (val event: Event) : Fragment() {
 
         eventMembersViewModel.members.observe(viewLifecycleOwner){
             val items = eventMembersViewModel.members.value ?: listOf()
-            adapter = MembersAdapter(items)
+            adapter = MembersAdapter(items){
+                (activity as MainActivity).replaceFragment(ProfileFragment(it))
+            }
             binding.recycler.adapter = adapter
         }
     }

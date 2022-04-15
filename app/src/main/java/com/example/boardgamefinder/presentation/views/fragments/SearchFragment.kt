@@ -41,6 +41,7 @@ import com.google.android.gms.maps.model.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.maps.android.clustering.Cluster
 import com.google.maps.android.clustering.ClusterManager
+import java.text.SimpleDateFormat
 
 /**
  * Fragment for search (map and list) tab
@@ -267,7 +268,9 @@ internal class SearchFragment : Fragment() {
 
         title.text = event.title
         location.text = event.location
-        date.text = event.date
+
+        val dateFormatter = SimpleDateFormat("yyyy-MM-dd")
+        date.text = dateFormatter.format(event.eventDate.time)
 
         // set image
         Glide.with(this)
@@ -281,7 +284,7 @@ internal class SearchFragment : Fragment() {
         // open event page
         openButton.setOnClickListener {
             eventBottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
-            (activity as MainActivity).replaceFragment(EventDetailsFragment(event))
+            (activity as MainActivity).replaceFragment(EventDetailsFragment(event.id))
         }
     }
 

@@ -13,10 +13,17 @@ interface UserRepository {
     // ToDo move to event repository
     suspend fun getEvents(jwt: String): Result<List<Event>>
     suspend fun createEvent(jwt: String, event: CreatingEvent): Result<Int>
-    suspend fun getEventMembers(eventId: Int): Result<List<User>>
+    suspend fun getEventVisitors(jwt: String, eventId: Int): Result<List<User>>
     suspend fun setLike(jwt: String, eventId: Int): Result<Unit>
     suspend fun removeLike(jwt: String, eventId: Int): Result<Unit>
     suspend fun joinEvent(jwt: String, eventId: Int): Result<Event.SubscriptionStatus>
     suspend fun leaveEvent(jwt: String, eventId: Int): Result<Unit>
     suspend fun logOut(jwt: String): Result<Boolean>
+    suspend fun getEvent(jwt: String, eventId: Int): Result<Event>
+    suspend fun recoverPassword(email: String): Result<Boolean>
+    suspend fun getProfile(jwt: String): Result<User>
+    suspend fun getProfile(jwt: String, userId: Int): Result<User>
+    suspend fun subscribe(jwt: String, userId: Int): Result<Boolean>
+    suspend fun unsubscribe(jwt: String, userId: Int): Result<Boolean>
+    suspend fun getMyCreatedEvents(jwt: String): Result<List<Event>>
 }

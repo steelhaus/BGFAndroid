@@ -205,6 +205,7 @@
                     android:text="Members" />
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/join_button"
                     style="@style/TextAppearance.MaterialComponents.Subtitle1"
                     android:layout_width="0dp"

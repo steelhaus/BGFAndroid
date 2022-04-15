@@ -1,12 +1,13 @@
 package com.example.boardgamefinder.domain.models
 
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
 data class Event(
     val id: Int,
     val title: String,
     val imageUrl: String?,
-    val date: String,
+    val eventDate: Date,
     val tags: List<Tag>?,
     val location: String,
     val visitorsCount: Int,
@@ -17,7 +18,9 @@ data class Event(
     var liked: Boolean,
     var subscriptionStatus: SubscriptionStatus,
     val latitude: Double,
-    val longitude: Double
+    val longitude: Double,
+    val description: String,
+    val isCreator: Boolean
 )
 
 {

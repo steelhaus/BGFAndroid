@@ -19,7 +19,10 @@ import com.example.boardgamefinder.domain.models.Event
 import com.example.boardgamefinder.presentation.viewModels.HomeViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import java.text.SimpleDateFormat
+import java.util.*
 
+// ToDo change openEvent delegate to (Int)->Unit
 internal class EventAdapter(private val items: List<Event>, private val viewModel: HomeViewModel, private val openEvent: (Event) -> Unit) : RecyclerView.Adapter<EventAdapter.EventViewHolder>(){
     private var context: Context? = null
 
@@ -45,9 +48,14 @@ internal class EventAdapter(private val items: List<Event>, private val viewMode
         holder: EventViewHolder,
         position: Int
     ) {
+
+        val dateFormatter = SimpleDateFormat("yyyy-MM-dd")
+        val timeFormatter = SimpleDateFormat("HH:mm")
+
         with(items[position]){
             holder.username.text = creator.username
-            holder.date.text = date
+            holder.date.text = dateFormatter.format(eventDate.time)
+            holder.time.text = timeFormatter.format(eventDate.time)
             holder.eventName.text = title
             holder.likes.text = likes.toString()
             holder.place.text = location
@@ -73,23 +81,28 @@ internal class EventAdapter(private val items: List<Event>, private val viewMode
                 viewModel.removeLike(position)
         }
 
-        // setting join button into correct state
-        holder.joinButton.apply {
-            when (items[position].subscriptionStatus) {
-                Event.SubscriptionStatus.NOT_SUBMITTED -> {
-                    setText(R.string.join)
-                    setTextColor(MySettings.getSecondaryColor(context))
-                }
-                Event.SubscriptionStatus.REQUESTED -> {
-                    setText(R.string.requested)
-                    setTextColor(ContextCompat.getColor(context!!, R.color.dark_gray))
-                }
-                else -> {
-                    setText(R.string.leave)
-                    setTextColor(ContextCompat.getColor(context!!, R.color.dark_gray))
+        if(!items[position].isCreator) {
+            // setting join button into correct state
+            holder.joinButton.apply {
+                visibility = View.VISIBLE
+
+                when (items[position].subscriptionStatus) {
+                    Event.SubscriptionStatus.NOT_SUBMITTED -> {
+                        setText(R.string.join)
+                        setTextColor(MySettings.getSecondaryColor(context))
+                    }
+                    Event.SubscriptionStatus.REQUESTED -> {
+                        setText(R.string.requested)
+                        setTextColor(ContextCompat.getColor(context!!, R.color.dark_gray))
+                    }
+                    else -> {
+                        setText(R.string.leave)
+                        setTextColor(ContextCompat.getColor(context!!, R.color.dark_gray))
+                    }
                 }
             }
-        }
+        }else
+            holder.joinButton.visibility = View.INVISIBLE
 
         holder.joinButton.setOnClickListener {
             if(items[position].subscriptionStatus == Event.SubscriptionStatus.NOT_SUBMITTED)

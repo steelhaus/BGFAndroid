@@ -42,7 +42,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Title"
                 android:textColor="?colorOnPrimary"
                 app:layout_constraintBottom_toBottomOf="@+id/backButton"
                 app:layout_constraintTop_toTopOf="@+id/backButton" />
@@ -73,6 +72,8 @@
                 tools:layout_editor_absoluteX="13dp">
 
                 <com.google.android.material.button.MaterialButton
+                    android:visibility="invisible"
+                    android:enabled="false"
                     android:id="@+id/joinButton"
                     style="@style/Widget.BoardGameFinder.Button.MediumButtonOnPrimary"
                     android:layout_width="0dp"
@@ -135,7 +136,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
-                android:text="location"
                 android:textColor="@color/dark_gray" />
 
             <LinearLayout
@@ -149,7 +149,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
-                    android:text="22.10.2022"
                     android:textColor="@color/dark_gray" />
 
                 <TextView
@@ -174,9 +173,6 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_columnWeight="1"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque diam velit, convallis at justo nec, dignissim pharetra arcu. Sed at massa vel augue lobortis auctor. Nam id imperdiet turpis. Praesent in ex urna. Nulla elementum turpis dui, quis dictum est aliquet dignissim. Duis porta sagittis porta. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nunc imperdiet lectus ut est tincidunt sollicitudin. Morbi vel lacus sed dolor vulputate finibus. Integer in luctus est, vitae blandit tellus. Fusce suscipit sollicitudin erat nec condimentum. Duis sed porttitor magna, a faucibus orci. Donec tempus massa mi, tristique dictum diam auctor quis. Proin diam sem, faucibus sit amet pretium a, posuere ac purus.
-
-Fusce quis faucibus enim. Maecenas mattis elit eget sollicitudin eleifend. Aliquam non nisl aliquet, eleifend tortor non, commodo quam. Aenean eget ex non urna scelerisque pretium. Mauris tempus molestie porta. Mauris eget pretium nulla, rhoncus pharetra mi. Integer sed orci consequat libero sagittis placerat faucibus condimentum felis. Integer fringilla varius pharetra. Aenean magna nunc, semper a urna iaculis, vestibulum pharetra tortor."
             android:scrollbars="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />

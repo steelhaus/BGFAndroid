@@ -23,6 +23,9 @@ internal class EventDetailsViewModel(app: Application) : AndroidViewModel(app) {
     private val _subscriptionStatus = MutableLiveData<Event.SubscriptionStatus>()
     val subscriptionStatus: LiveData<Event.SubscriptionStatus> = _subscriptionStatus
 
+    private val _event = MutableLiveData<Event>()
+    val event: LiveData<Event> = _event
+
     private lateinit var mSettings: SharedPreferences
 
     fun joinEvent(eventId: Int){
@@ -58,6 +61,26 @@ internal class EventDetailsViewModel(app: Application) : AndroidViewModel(app) {
             withContext(Dispatchers.Main) {
                 if (result.isSuccess)
                     _subscriptionStatus.value = Event.SubscriptionStatus.NOT_SUBMITTED
+                else if(result.exceptionOrNull() != null)
+                    Toast.makeText(getApplication(), (result.exceptionOrNull() as Exception).toMessage(getApplication()), Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    fun getEvent(eventId: Int){
+
+        val useCase = GetEventUseCase(UserRepository())
+
+        mSettings = (getApplication() as Context).getSharedPreferences(MySettings.APP_PREFERENCES, AppCompatActivity.MODE_PRIVATE)
+
+        val jwt = mSettings.getString(MySettings.APP_PREFERENCES_TOKEN, "") ?: ""
+
+        viewModelScope.launch {
+            val result = useCase.execute(jwt, eventId)
+
+            withContext(Dispatchers.Main) {
+                if (result.isSuccess)
+                    _event.value = result.getOrNull()!!
                 else if(result.exceptionOrNull() != null)
                     Toast.makeText(getApplication(), (result.exceptionOrNull() as Exception).toMessage(getApplication()), Toast.LENGTH_LONG).show()
             }

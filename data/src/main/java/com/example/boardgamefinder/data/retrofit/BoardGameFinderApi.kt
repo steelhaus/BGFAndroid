@@ -1,6 +1,7 @@
 package com.example.boardgamefinder.data.retrofit
 
 import com.example.boardgamefinder.data.retrofit.models.CodeRequest
+import com.example.boardgamefinder.data.retrofit.models.EmailRequest
 import com.example.boardgamefinder.data.retrofit.models.GenericResponse
 import com.example.boardgamefinder.data.retrofit.models.UserCredentialsRequest
 import com.example.boardgamefinder.domain.models.*
@@ -43,8 +44,11 @@ internal interface BoardGameFinderApi {
         @Body creatingEvent: CreatingEvent
     ): Response<GenericResponse<Int>>
 
-    @GET("events/members")
-    suspend fun getEventMembers(): Response<GenericResponse<List<User>>>
+    @GET("events/visitors")
+    suspend fun getEventVisitors(
+        @Header ("jwt") jwt: String,
+        @Query("eventId") id: Int
+    ): Response<GenericResponse<List<User>>>
 
     @POST("events/likes")
     suspend fun setLike(
@@ -69,4 +73,43 @@ internal interface BoardGameFinderApi {
         @Header ("jwt") jwt: String,
         @Query("eventId") id: Int
     ): Response<GenericResponse<Unit>>
+
+    @GET("events")
+    suspend fun getEvent(
+        @Header ("jwt") jwt: String,
+        @Query("eventId") id: Int
+    ): Response<GenericResponse<Event>>
+
+    @POST("auth/recover")
+    suspend fun recoverPassword(
+        @Body email: EmailRequest
+    ): Response<GenericResponse<Boolean>>
+
+    @GET("profile")
+    suspend fun getProfile(
+        @Header ("jwt") jwt: String
+    ): Response<GenericResponse<User>>
+
+    @GET("profile")
+    suspend fun getProfile(
+        @Header ("jwt") jwt: String,
+        @Query("id") id: Int
+    ): Response<GenericResponse<User>>
+
+    @POST("subscriptions")
+    suspend fun subscribe(
+        @Header ("jwt") jwt: String,
+        @Query("id") id: Int
+    ): Response<GenericResponse<Boolean>>
+
+    @DELETE("subscriptions")
+    suspend fun unsubscribe(
+        @Header ("jwt") jwt: String,
+        @Query("id") id: Int
+    ): Response<GenericResponse<Boolean>>
+
+    @GET("events/my/created")
+    suspend fun getMyCreatedEvents(
+        @Header ("jwt") jwt: String
+    ): Response<GenericResponse<List<Event>>>
 }

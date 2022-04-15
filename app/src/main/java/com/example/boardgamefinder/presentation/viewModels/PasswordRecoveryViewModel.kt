@@ -11,38 +11,28 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.boardgamefinder.core.MySettings
 import com.example.boardgamefinder.core.toMessage
+import com.example.boardgamefinder.data.retrofit.DataException
 import com.example.boardgamefinder.data.retrofit.UserRepository
-import com.example.boardgamefinder.domain.models.Event
-import com.example.boardgamefinder.domain.usecase.GetEventsUseCase
-import com.example.boardgamefinder.domain.usecase.GetMyCreatedEventsUseCase
+import com.example.boardgamefinder.domain.models.*
+import com.example.boardgamefinder.domain.usecase.ConfirmCodeUseCase
+import com.example.boardgamefinder.domain.usecase.RecoverPasswordUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
 
-internal class MyEventsViewModel(app: Application) : AndroidViewModel(app) {
+internal class PasswordRecoveryViewModel(app: Application) : AndroidViewModel(app) {
+    private val _success = MutableLiveData<Boolean>()
+    val success: LiveData<Boolean> = _success
 
-    private val _events = MutableLiveData<List<Event>>()
-    val events: LiveData<List<Event>> = _events
-
-    private lateinit var mSettings: SharedPreferences
-
-    init {
-        getEvents()
-    }
-
-    fun getEvents(){
-        val useCase = GetMyCreatedEventsUseCase(UserRepository())
-
-        mSettings = (getApplication() as Context).getSharedPreferences(MySettings.APP_PREFERENCES, AppCompatActivity.MODE_PRIVATE)
-
-        val jwt = mSettings.getString(MySettings.APP_PREFERENCES_TOKEN, "") ?: ""
-
+    fun send(email: String){
+        val useCase = RecoverPasswordUseCase(UserRepository())
         viewModelScope.launch {
-            val result = useCase.execute(jwt)
+            val result = useCase.execute(email)
 
             withContext(Dispatchers.Main) {
                 if (result.isSuccess)
-                    _events.value = result.getOrNull()
+                    _success.value = true
                 else if(result.exceptionOrNull() != null)
                     Toast.makeText(getApplication(), (result.exceptionOrNull() as Exception).toMessage(getApplication()), Toast.LENGTH_LONG).show()
             }

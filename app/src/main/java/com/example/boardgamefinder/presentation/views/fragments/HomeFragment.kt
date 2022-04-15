@@ -43,7 +43,7 @@ internal class HomeFragment : Fragment() {
 
         homeViewModel.events.observe(viewLifecycleOwner) {
             adapter = EventAdapter(it ?: listOf(), homeViewModel){event ->
-                (activity as MainActivity).replaceFragment(EventDetailsFragment(event))
+                (activity as MainActivity).replaceFragment(EventDetailsFragment(event.id))
             }
             binding.recycler.adapter = adapter
         }

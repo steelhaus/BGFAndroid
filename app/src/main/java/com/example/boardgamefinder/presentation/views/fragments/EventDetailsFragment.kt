@@ -18,9 +18,10 @@ import com.example.boardgamefinder.domain.models.Event
 import com.example.boardgamefinder.presentation.viewModels.EventDetailsViewModel
 import com.example.boardgamefinder.presentation.views.activities.MainActivity
 import com.google.android.material.chip.Chip
+import java.text.SimpleDateFormat
 
 
-class EventDetailsFragment(val event: Event) : Fragment() {
+class EventDetailsFragment(val eventId: Int) : Fragment() {
 
     private var _binding: FragmentEventDetailsBinding? = null
     private val binding get() = _binding!!
@@ -38,52 +39,70 @@ class EventDetailsFragment(val event: Event) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.title.text = event.title
-        binding.location.text = event.location
-        binding.date.text = event.date
-        //ToDo binding.description.text = event
-
-        // set image
-        Glide.with(this)
-            .load(event.imageUrl)
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .error(R.color.dark_gray)
-            .transform(CenterCrop(), RoundedCorners(50))
-            .into(binding.imageView)
-
-        // set subscription button state
-        setJoinButton()
-
-        binding.joinButton.setOnClickListener {
-            if(event.subscriptionStatus == Event.SubscriptionStatus.NOT_SUBMITTED)
-                eventDetailsViewModel.joinEvent(event.id)
-            else
-                eventDetailsViewModel.leaveEvent(event.id)
+        binding.backButton.setOnClickListener {
+            requireActivity().onBackPressed()
         }
 
-        eventDetailsViewModel.subscriptionStatus.observe(viewLifecycleOwner){
-            event.subscriptionStatus = it
-            setJoinButton()
-        }
+        eventDetailsViewModel.getEvent(eventId)
 
-        // set description scrollable
-        binding.description.movementMethod = ScrollingMovementMethod()
+        val dateFormatter = SimpleDateFormat("yyyy-MM-dd")
+        val timeFormatter = SimpleDateFormat("HH:mm")
 
-        event.tags?.let { tags ->
-            val uniqueTags = tags.distinctBy { it.title }
-            // setting tags
-            for (i in uniqueTags) {
-                val chip = Chip(context)
-                chip.text = i.title
-                binding.tags.addView(chip)
+        eventDetailsViewModel.event.observe(viewLifecycleOwner){event ->
+            binding.title.text = event.title
+            binding.location.text = event.location
+
+            binding.date.text = dateFormatter.format(event.eventDate.time)
+            binding.time.text = timeFormatter.format(event.eventDate.time)
+            binding.description.text = event.description
+
+            // set image
+            Glide.with(this)
+                .load(event.imageUrl)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .error(R.color.dark_gray)
+                .transform(CenterCrop(), RoundedCorners(50))
+                .into(binding.imageView)
+
+            if(!event.isCreator) {
+                binding.joinButton.visibility = View.VISIBLE
+                binding.joinButton.isEnabled = true
+
+                // set subscription button state
+                setJoinButton(event.subscriptionStatus)
+
+                binding.joinButton.setOnClickListener {
+                    if(event.subscriptionStatus == Event.SubscriptionStatus.NOT_SUBMITTED)
+                        eventDetailsViewModel.joinEvent(event.id)
+                    else
+                        eventDetailsViewModel.leaveEvent(event.id)
+                }
+
+                eventDetailsViewModel.subscriptionStatus.observe(viewLifecycleOwner){
+                    event.subscriptionStatus = it
+                    setJoinButton(it)
+                }
             }
-        }
 
-        binding.membersButton.setOnClickListener {
-            (activity as MainActivity).replaceFragment(EventMembersFragment(event))
-        }
+            // set description scrollable
+            binding.description.movementMethod = ScrollingMovementMethod()
 
+            event.tags?.let { tags ->
+                val uniqueTags = tags.distinctBy { it.title }
+                // setting tags
+                for (i in uniqueTags) {
+                    val chip = Chip(context)
+                    chip.text = i.title
+                    binding.tags.addView(chip)
+                }
+            }
+
+            binding.membersButton.setOnClickListener {
+                (activity as MainActivity).replaceFragment(EventMembersFragment(event))
+            }
+
+        }
     }
 
     override fun onDestroy() {
@@ -91,8 +110,8 @@ class EventDetailsFragment(val event: Event) : Fragment() {
         _binding = null
     }
 
-    private fun setJoinButton(){
-        if(event.subscriptionStatus == Event.SubscriptionStatus.NOT_SUBMITTED){
+    private fun setJoinButton(status: Event.SubscriptionStatus){
+        if(status == Event.SubscriptionStatus.NOT_SUBMITTED){
             //ToDo to resources
             binding.joinButton.text = "JOIN"
 
